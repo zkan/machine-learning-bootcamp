@@ -1,5 +1,3 @@
-"""Turn a customer table into model inputs. The label stays out of X."""
-
 import pandas as pd
 
 from day1.schema import FEATURE_COLUMNS, TARGET

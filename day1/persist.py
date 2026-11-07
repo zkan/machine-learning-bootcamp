@@ -1,8 +1,4 @@
-"""Save and load the fitted pipeline plus the validation threshold.
-
-joblib uses pickle. Loading a file runs code in that file.
-Load only a bundle you fit in class, or one the instructor hands you.
-"""
+"""joblib uses pickle. Loading a file runs code in that file."""
 
 from dataclasses import dataclass
 from pathlib import Path

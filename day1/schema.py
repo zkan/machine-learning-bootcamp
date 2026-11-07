@@ -1,9 +1,3 @@
-"""Column contract for the synthetic KlongCart churn table.
-
-Features describe the customer on and before the snapshot.
-The label is the next 30 days after the snapshot.
-"""
-
 from datetime import date
 
 SNAPSHOT_DATE = date(2026, 6, 30)

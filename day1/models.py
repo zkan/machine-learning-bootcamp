@@ -1,5 +1,3 @@
-"""Unfitted pipelines. Fitting happens on the training rows only."""
-
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier

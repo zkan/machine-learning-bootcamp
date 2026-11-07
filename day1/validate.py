@@ -1,5 +1,3 @@
-"""Reject a form row the model should not score."""
-
 from day1.schema import AISLES, DISTRICTS, FEATURE_COLUMNS, PLANS
 
 

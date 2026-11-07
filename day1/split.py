@@ -1,10 +1,3 @@
-"""Hold out validation and test before any fit.
-
-Train is for fitting.
-Validation is for model choice and the threshold.
-Test is for one final check.
-"""
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 

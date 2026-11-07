@@ -1,5 +1,3 @@
-"""Print the Day 1 import check and the table size."""
-
 import matplotlib
 import numpy
 import pandas

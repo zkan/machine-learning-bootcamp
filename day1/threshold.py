@@ -1,9 +1,3 @@
-"""Pick a threshold from validation rows and a cost card.
-
-A tie keeps the lower threshold.
-The lower threshold flags more customers.
-"""
-
 from typing import NamedTuple
 
 import numpy as np
@@ -40,15 +34,13 @@ def choose_threshold(
     if len(y_true) != len(proba):
         raise ValueError("y_true and proba must have the same length.")
     candidates = DEFAULT_GRID if grid is None else np.asarray(grid, dtype=float)
-    best_threshold = None
-    best_cost = None
+    scored = []
     for threshold in candidates:
-        cost = total_cost(y_true, labels_at(proba, float(threshold)), cost_fn_thb, cost_fp_thb)
-        if best_cost is None or cost.cost_thb < best_cost or (
-            cost.cost_thb == best_cost and float(threshold) < best_threshold
-        ):
-            best_cost = cost.cost_thb
-            best_threshold = float(threshold)
-    if best_threshold is None:
+        cost = total_cost(
+            y_true, labels_at(proba, float(threshold)), cost_fn_thb, cost_fp_thb
+        )
+        scored.append((cost.cost_thb, float(threshold)))
+    if not scored:
         raise ValueError("The threshold grid is empty.")
-    return best_threshold
+    _best_cost, threshold = min(scored)
+    return threshold

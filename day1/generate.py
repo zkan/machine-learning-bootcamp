@@ -1,9 +1,3 @@
-"""Deterministic synthetic KlongCart customers.
-
-The draw uses numpy's Generator and a fixed seed.
-The same numpy pin writes the same file.
-"""
-
 import argparse
 from pathlib import Path
 

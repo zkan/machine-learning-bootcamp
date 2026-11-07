@@ -1,5 +1,3 @@
-"""Repo paths. Notebooks and the app both start from these."""
-
 from pathlib import Path
 
 
