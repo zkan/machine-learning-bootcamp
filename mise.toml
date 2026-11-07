@@ -6,6 +6,7 @@ uv = "0.13.7"
 
 [env]
 UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
+PYTHONPATH = "{{ config_root }}/01-supervised-churn"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]

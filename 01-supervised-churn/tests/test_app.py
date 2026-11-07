@@ -3,7 +3,7 @@ from streamlit.testing.v1 import AppTest
 
 from day1.frame import features_and_target
 from day1.models import make_logistic_pipeline
-from day1.paths import data_csv, package_root
+from day1.paths import data_csv, module_root
 from day1.persist import save_bundle
 from day1.split import split_customers
 from day1.validate import input_errors
@@ -43,7 +43,7 @@ def test_negative_tenure_is_rejected():
 
 def test_missing_bundle_tells_you_what_to_finish(monkeypatch, tmp_path):
     monkeypatch.setenv("KLONGCART_BUNDLE", str(tmp_path / "missing.joblib"))
-    at = AppTest.from_file(package_root() / "app.py", default_timeout=30).run()
+    at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     text = _errors(at)
     assert "notebook 05" in text
     assert "trust" in text
@@ -51,7 +51,7 @@ def test_missing_bundle_tells_you_what_to_finish(monkeypatch, tmp_path):
 
 def test_zero_orders_with_spend_shows_the_input_error(monkeypatch, tmp_path):
     monkeypatch.setenv("KLONGCART_BUNDLE", str(_bundle(tmp_path)))
-    at = AppTest.from_file(package_root() / "app.py", default_timeout=30).run()
+    at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     at.number_input[1].set_value(0)
     at.number_input[2].set_value(50.0)
     at.form_submit_button[0].click().run()
@@ -60,7 +60,7 @@ def test_zero_orders_with_spend_shows_the_input_error(monkeypatch, tmp_path):
 
 def test_starter_scores_a_probability_and_stops_on_the_exercise(monkeypatch, tmp_path):
     monkeypatch.setenv("KLONGCART_BUNDLE", str(_bundle(tmp_path)))
-    at = AppTest.from_file(package_root() / "app.py", default_timeout=30).run()
+    at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     at.form_submit_button[0].click().run()
     assert at.metric
     assert "%" in at.metric[0].value
@@ -69,6 +69,6 @@ def test_starter_scores_a_probability_and_stops_on_the_exercise(monkeypatch, tmp
 
 
 def test_public_app_keeps_the_exercise():
-    source = (package_root() / "app.py").read_text()
+    source = (module_root() / "app.py").read_text()
     assert "raise NotImplementedError" in source
     assert 'return "yes"' not in source

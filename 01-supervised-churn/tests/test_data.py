@@ -5,7 +5,7 @@ import pandas as pd
 
 from day1.frame import features_and_target
 from day1.generate import customer_bytes, generate_customers, main
-from day1.paths import data_csv, repo_root_from
+from day1.paths import data_csv, module_root_from
 from day1.schema import (
     COLUMNS,
     FEATURE_COLUMNS,
@@ -82,8 +82,9 @@ def test_ranges_and_churn_rate():
     assert "next 30 days" in dictionary
 
 
-def test_repo_root_from_repo_and_notebooks():
-    root = data_csv().parents[1]
-    assert repo_root_from(root) == root
-    assert repo_root_from(root / "notebooks") == root
+def test_module_root_from_repo_module_and_notebooks():
+    module = data_csv().parents[1]
+    assert module_root_from(module) == module
+    assert module_root_from(module / "notebooks") == module
+    assert module_root_from(module.parent) == module
     assert date(2026, 6, 30) == SNAPSHOT_DATE

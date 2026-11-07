@@ -24,3 +24,7 @@ dev = [
 [tool.uv]
 package = false
 default-groups = []
+
+[tool.pytest.ini_options]
+pythonpath = ["01-supervised-churn"]
+testpaths = ["01-supervised-churn/tests"]
