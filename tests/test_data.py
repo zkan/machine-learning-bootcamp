@@ -74,8 +74,7 @@ def test_ranges_and_churn_rate():
     assert frame["promo_order_share_90d"].between(0, 1).all()
     zero_orders = frame["orders_90d"] == 0
     assert (frame.loc[zero_orders, "spend_thb_90d"] == 0).all()
-    rate = frame[TARGET].mean()
-    assert 0.25 < rate < 0.33
+    assert int(frame[TARGET].sum()) == 714
     dictionary = (data_csv().parent / "DATA_DICTIONARY.md").read_text()
     for name in COLUMNS:
         assert name in dictionary

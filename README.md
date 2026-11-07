@@ -232,7 +232,7 @@ python -m pytest tests -q --tb=line
 Linux result during this prep:
 
 ```text
-23 passed in 2.27s
+23 passed in 2.20s
 ```
 
 Those tests check the table, the split, the pipelines, the bundle round trip, the starter form, and that the public notebooks still contain the blanks. They do not contain the exercise answers.

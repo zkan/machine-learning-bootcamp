@@ -8,18 +8,19 @@ from day1.paths import data_csv
 from day1.persist import DecisionBundle, load_bundle, save_bundle
 from day1.schema import FEATURE_COLUMNS, TARGET
 from day1.split import split_customers
-from day1.threshold import choose_threshold, total_cost
+from day1.threshold import choose_threshold, labels_at, total_cost
 
 
 def test_threshold_on_a_known_card():
     actual = [0, 0, 1, 1]
     proba = [0.2, 0.55, 0.45, 0.8]
+    low = total_cost(actual, labels_at(proba, 0.25), 5, 1)
+    high = total_cost(actual, labels_at(proba, 0.45), 5, 1)
+    assert low.cost_thb == high.cost_thb == 1
+    assert low.false_negatives == 0
+    assert low.false_positives == 1
     chosen = choose_threshold(actual, proba, cost_fn_thb=5, cost_fp_thb=1)
     assert chosen == 0.25
-    cost = total_cost(actual, [0, 1, 1, 1], 5, 1)
-    assert cost.false_negatives == 0
-    assert cost.false_positives == 1
-    assert cost.cost_thb == 1
 
 
 def test_higher_miss_cost_does_not_raise_the_threshold():
