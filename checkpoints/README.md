@@ -2,7 +2,7 @@
 
 Each notebook reloads the CSV. You do not need the previous kernel.
 
-The table is already at `data/klongcart_churn.csv`. Check it with `python -m day1.generate --check`.
+The table is already at `data/klongcart_churn.csv`. Check it with `uv run python -m day1.generate --check`.
 
 After notebook 05, the model file is `models/churn_bundle.joblib` on your laptop. That folder is not in git. A joblib file can run code when it is loaded. Load only a file you fit in class, or a file the instructor hands you in the room.
 

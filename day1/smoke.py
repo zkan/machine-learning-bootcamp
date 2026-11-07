@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib
 import numpy
 import pandas
@@ -10,6 +12,7 @@ from day1.schema import COLUMNS, N_ROWS
 
 
 def main() -> int:
+    print(f"python {sys.version.split()[0]}")
     print(f"numpy {numpy.__version__}")
     print(f"pandas {pandas.__version__}")
     print(f"matplotlib {matplotlib.__version__}")

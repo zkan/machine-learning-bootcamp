@@ -50,35 +50,76 @@ The 09:00 block can stay in discussion while `00_start.ipynb` is open. The cost 
 
 ## Before class
 
-Install Python 3.12. This package was run with Python 3.12.3 on Linux. Windows and macOS steps are listed below and were not run here.
+Install mise 2026.11.3, then let it install uv 0.13.7 and Python 3.15.2. Do not install a second Python with python.org, Homebrew, or `py -3` and then mix it into this repo. The Linux commands below were run on this machine. The macOS and Windows commands are the ones in the mise install docs and were not run here.
 
-Create the environment from the repo folder. The morning block is the backup for people who could not finish this the night before.
+## Pin mise itself
+
+mise does not read a version file for its own executable. The install script does. `MISE_VERSION` selects one release and checks it against `SHASUMS256.txt` on GitHub Releases. Without that variable, the script installs the newest stable release that is at least 24 hours old, which is a different pin.
+
+Linux and macOS, from https://mise.jdx.dev/installing-mise.html:
+
+```sh
+curl -fsSL https://mise.run | MISE_VERSION=v2026.11.3 sh
+```
+
+On macOS the same script is the documented installer. Activate Zsh with the line from https://mise.jdx.dev/cli/activate.html:
+
+```sh
+eval "$(~/.local/bin/mise activate zsh)"
+```
+
+Bash, which is what this Linux prep used:
+
+```sh
+eval "$(~/.local/bin/mise activate bash)"
+```
+
+Windows PowerShell, from the script at https://mise.run/powershell. That script reads `MISE_VERSION` and strips a leading `v`. This command was not run here:
+
+```powershell
+$env:MISE_VERSION = "2026.11.3"
+irm https://mise.run/powershell | iex
+```
+
+Open a new PowerShell window so `Path` includes mise, then activate it with the documented command:
+
+```powershell
+(&mise activate pwsh) | Out-String | Invoke-Expression
+```
+
+`mise.toml` sets `min_version = "2026.11.3"`. An older mise stops. A newer mise still runs. The exact executable is the one the installer downloaded.
+
+Check it:
+
+```sh
+mise --version
+```
+
+This Linux install printed `2026.11.3 linux-x64 (2026-11-06)`.
 
 ## Create the environment
 
-Linux and macOS:
+From the repo folder, after mise is on your `PATH`:
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m ipykernel install --user --name klongcart-day1 --display-name "Python (klongcart-day1)"
+```sh
+mise install
+uv sync --frozen
+uv run python -m ipykernel install --user --name klongcart-day1 --display-name "Python (klongcart-day1)"
 ```
 
-Windows, from the repo folder, in PowerShell or Command Prompt:
+`mise install` reads `mise.toml` and `mise.lock`. It installs Python 3.15.2 and uv 0.13.7. `uv sync --frozen` installs the learner packages from `uv.lock` and does not install the `dev` group. pytest is in that group. You do not need it to follow the timetable.
 
-```bat
-py -3.12 -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m ipykernel install --user --name klongcart-day1 --display-name "Python (klongcart-day1)"
+`mise.toml` sets `UV_PYTHON` to the Python mise installed. uv then builds `.venv` from that interpreter. `.python-version` is also `3.15.2`. After the sync, an activated mise shell puts `.venv` first on `PATH`. Run project commands with `uv run` so the interpreter cannot drift back to another Python.
+
+Check the interpreter:
+
+```sh
+uv run python -c "import sys; print(sys.version); print(sys.executable)"
 ```
 
-The learner install is `requirements.txt` only. It pins numpy, pandas, matplotlib, scikit-learn, joblib, streamlit, jupyter, and ipykernel. joblib is how the afternoon saves the model. scikit-learn uses it. Do not add MLflow, DVC, or Feast today.
+On this Linux machine the version line was `3.15.2 (main, Oct 26 2026, 14:06:56) [Clang 23.1.3 ]` and the executable was `/workspace/.venv/bin/python`. Your folder will differ. The version must be 3.15.2 and the path must be the repo `.venv`, not a system Python. On Windows the executable ends in `.venv\Scripts\python.exe`. That path was not run here.
 
-`requirements-dev.txt` is for the automated checks. You do not need it to follow the timetable.
+The learner packages are numpy, pandas, matplotlib, scikit-learn, joblib, streamlit, jupyter, and ipykernel. joblib is how the afternoon saves the model. Do not add MLflow, DVC, or Feast today.
 
 On this Linux machine the kernel command printed:
 
@@ -92,8 +133,8 @@ The folder under your home directory will differ. The important line is `Install
 
 From the repo folder, with the environment active:
 
-```bash
-python -m day1.generate --check
+```sh
+uv run python -m day1.generate --check
 ```
 
 Linux result from this prep:
@@ -104,13 +145,14 @@ match /workspace/data/klongcart_churn.csv rows=2400
 
 Your path will be the repo you cloned. The line still ends in `rows=2400`. A mismatch means the CSV was edited. Do not edit it. The generator and the file are the same draw, seed 42, 2,400 rows.
 
-```bash
-python -m day1.smoke
+```sh
+uv run python -m day1.smoke
 ```
 
 Linux result:
 
 ```text
+python 3.15.2
 numpy 2.5.4
 pandas 3.1.1
 matplotlib 3.11.2
@@ -125,8 +167,8 @@ smoke ok
 
 From the repo folder:
 
-```bash
-python -m jupyter notebook
+```sh
+uv run python -m jupyter notebook
 ```
 
 Open `notebooks/00_start.ipynb`. If the kernel menu lists more than one Python, choose Python (klongcart-day1).
@@ -175,8 +217,8 @@ Finished notebooks, the filled `churn_decision`, and a saved model are not in th
 
 After notebook 05 saves the bundle:
 
-```bash
-python -m streamlit run app.py
+```sh
+uv run python -m streamlit run app.py
 ```
 
 Before that file exists, the page stops with an error. The error names the missing path, tells you to finish notebook 05, and warns you about joblib. Refresh after the file is there.
@@ -205,44 +247,50 @@ Use the first cut that fits the clock.
 - 15:05: save the bundle and open the form. Say the test numbers out loud only if the cell already finished.
 - 15:40 and the form has no file: take the instructor checkpoint. Do not refit during the demo.
 
-The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with at most 120 trees. On the Linux machine used for this prep, notebook 04 finished in 4.01 seconds, including kernel startup.
+The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with at most 120 trees. On the Linux machine used for this prep, notebook 04 finished in 3.72 seconds, including kernel startup.
 
 ## Troubleshooting
 
 `ModuleNotFoundError: day1`. Start Jupyter from the repo folder or from `notebooks`. The first cell prints both paths when it works.
 
-`python -m day1.generate --check` prints `mismatch`. Leave the CSV alone. Run the command from the repo folder.
+`uv run python -m day1.generate --check` prints `mismatch`. Leave the CSV alone. Run the command from the repo folder.
 
-The kernel list has no `klongcart-day1`. Activate `.venv` and run the `ipykernel install` command again.
+The kernel list has no `klongcart-day1`. From the repo folder, run the `uv run python -m ipykernel install` command again.
 
 The form says there is no model file. Finish notebook 05, or ask for the instructor file, then refresh.
 
 The form says `Finish churn_decision`. That is the 15:10 exercise. Fill in `churn_decision` in `app.py` and save the file. Streamlit reruns the script.
 
-`streamlit` says the port is in use. Run `python -m streamlit run app.py --server.port 8502`.
+`streamlit` says the port is in use. Run `uv run python -m streamlit run app.py --server.port 8502`.
 
 ## Checks for the teaching team
 
-From the repo folder, after `pip install -r requirements-dev.txt`:
+The `dev` group is pytest, nbclient, and nbformat. From the repo folder:
 
-```bash
-python -m pytest tests -q --tb=line
+```sh
+uv sync --frozen --group dev
+uv run --group dev python -m pytest tests -q --tb=line
 ```
 
-Linux result during this prep:
+`uv sync --frozen` without `--group dev` leaves pytest uninstalled. This Linux prep checked that import and got `ModuleNotFoundError: No module named 'pytest'`.
+
+Linux result for the dev command during this prep:
 
 ```text
-23 passed in 2.20s
+23 passed in 1.95s
 ```
 
 Those tests check the table, the split, the pipelines, the bundle round trip, the starter form, and that the public notebooks still contain the blanks. They do not contain the exercise answers.
 
 ## Library versions
 
-Pinned in `requirements.txt` and imported successfully on Linux with Python 3.12.3.
+Resolved by `uv lock` on CPython 3.15.2 and imported on Linux. The lock is `uv.lock`. Do not add a second requirements file.
 
 | Package | Version | Documentation used for this day |
 | --- | --- | --- |
+| mise | 2026.11.3 | [Installing mise](https://mise.jdx.dev/installing-mise.html), [activate](https://mise.jdx.dev/cli/activate.html), [uv projects](https://mise.jdx.dev/lang/python.html) |
+| uv | 0.13.7 | [Python versions](https://docs.astral.sh/uv/concepts/python-versions/), [release 0.13.7](https://github.com/astral-sh/uv/releases/tag/0.13.7) |
+| Python | 3.15.2 | [Python 3.15.2](https://www.python.org/downloads/release/python-3152/) |
 | numpy | 2.5.4 | generator |
 | pandas | 3.1.1 | [read_csv](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) |
 | matplotlib | 3.11.2 | bar chart in notebook 01 |
@@ -253,3 +301,5 @@ Pinned in `requirements.txt` and imported successfully on Linux with Python 3.12
 | ipykernel | 7.4.0 | kernel `klongcart-day1` |
 
 The automated checks also used pytest 9.2.0, nbclient 0.11.0, and nbformat 5.10.4.
+
+`uv.lock` records PyYAML 6.0.3 as a source distribution. PyPI has no cp315 wheel for that release. The frozen sync on this Linux machine compiled it. A laptop without a C compiler can fail at that build.
