@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.audit/
+models/
+*.joblib
+*.pkl
+*.pyc
+.DS_Store
