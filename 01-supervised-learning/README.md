@@ -1,4 +1,4 @@
-## 1. Supervised learning
+# Day 1: Supervised learning
 
 Day 1 of the Machine Learning Bootcamp. You build two local checks for KlongCart, a fictional Bangkok online grocery. Classification asks who places no paid order next month. Regression asks how many baht they spend in that same month.
 
@@ -16,11 +16,11 @@ The class runs 09:00 to 16:00 Bangkok time. Work in pairs inside five teams. The
 
 The score is a classroom demo. It is not a production retention system. The rows were drawn by `generate.py`. They are not real shoppers.
 
-Run the commands on this page from the repository root. `uv` finds this project from `01-supervised-learning` as well, because `pyproject.toml` is in a parent folder.
+Run the commands on this page from the repository root.
 
-## What you will have at 16:00
+## What you build
 
-A form that shows a churn probability, the word yes or no, and an estimated next-month spend in THB. Yes means send a small voucher. No means leave the customer alone. The spend estimate is the baht the model expects them to pay in July. Both numbers come from models you fit on this laptop. The yes or no line uses a threshold your team chose from a cost card.
+Build a form that shows churn probability, a yes or no voucher decision, and estimated July spend in THB. Fit both models locally. Choose the voucher threshold from your team's cost card. Yes means send a small voucher. No means leave the customer alone.
 
 ## The questions
 
@@ -32,7 +32,7 @@ Features stop on 30 June 2026. That window is 2 April 2026 through 30 June 2026,
 
 ## Objectives
 
-You can do these by the end of the day.
+By 16:00, you can:
 
 - Say what the train rows, the validation rows, and the test rows are for.
 - Compute a churn rate and name three facts from the table.
@@ -62,17 +62,17 @@ You can do these by the end of the day.
 | 15:25 to 15:45 | Form, both bundles, yes or no line, spend in THB | `app.py` |
 | 15:45 to 16:00 | Demo. Say the data is synthetic | |
 
-Classification is the main lap. The 15:05 block is a short spend comparison on the same rows. It is not a second full workshop. A larger ridge search than `n_iter=4` is optional and is not on the clock.
+Classification is the main task. The 15:05 block compares spend models on the same rows. A ridge search larger than `n_iter=4` is optional and outside the timetable.
 
-The 09:00 block can stay in discussion while `00_start.ipynb` is open. The cost card belongs to the business half of the pair. The default is 500 THB for a missed churner and 100 THB for a wasted voucher. Change those two names in notebook 05 if the team disagrees, and do it before the test cell.
+The business learner in each pair sets the cost card. Defaults are 500 THB for a missed churner and 100 THB for a wasted voucher. If your team changes these costs, edit them in notebook 05 before running the test cell.
 
 ## Before class
 
-Install mise 2026.11.3, then let it install uv 0.13.7 and Python 3.15.2. Do not install a second Python with python.org, Homebrew, or `py -3` and then mix it into this repo. The Linux commands below were run on this machine. The macOS and Windows commands are the ones in the mise install docs and were not run here.
+Install mise 2026.11.3, then use it to install uv 0.13.7 and Python 3.15.2. Do not mix in Python from python.org, Homebrew, or `py -3`. The Linux setup was tested. The macOS and Windows commands follow the mise documentation but were not tested for this course.
 
-## Pin mise itself
+## Install mise
 
-mise does not read a version file for its own executable. The install script does. `MISE_VERSION` selects one release and checks it against `SHASUMS256.txt` on GitHub Releases. Without that variable, the script installs the newest stable release that is at least 24 hours old, which is a different pin.
+Use `MISE_VERSION` to install the course version.
 
 Linux and macOS, from https://mise.jdx.dev/installing-mise.html:
 
@@ -80,19 +80,19 @@ Linux and macOS, from https://mise.jdx.dev/installing-mise.html:
 curl -fsSL https://mise.run | MISE_VERSION=v2026.11.3 sh
 ```
 
-On macOS the same script is the documented installer. Activate Zsh with the line from https://mise.jdx.dev/cli/activate.html:
+For Zsh, use the activation command from https://mise.jdx.dev/cli/activate.html:
 
 ```sh
 eval "$(~/.local/bin/mise activate zsh)"
 ```
 
-Bash, which is what this Linux prep used:
+For Bash:
 
 ```sh
 eval "$(~/.local/bin/mise activate bash)"
 ```
 
-Windows PowerShell, from the script at https://mise.run/powershell. That script reads `MISE_VERSION` and strips a leading `v`. This command was not run here:
+For Windows PowerShell, use https://mise.run/powershell:
 
 ```powershell
 $env:MISE_VERSION = "2026.11.3"
@@ -105,7 +105,7 @@ Open a new PowerShell window so `Path` includes mise, then activate it with the 
 (&mise activate pwsh) | Out-String | Invoke-Expression
 ```
 
-`mise.toml` sets `min_version = "2026.11.3"`. An older mise stops. A newer mise still runs. The exact executable is the one the installer downloaded.
+`mise.toml` requires at least mise 2026.11.3. Use the installer above for the exact course version.
 
 Check it:
 
@@ -113,7 +113,7 @@ Check it:
 mise --version
 ```
 
-This Linux install printed `2026.11.3 linux-x64 (2026-11-06)`.
+Check that the version is 2026.11.3.
 
 ## Create the environment
 
@@ -125,9 +125,9 @@ uv sync --frozen
 uv run python -m ipykernel install --user --name klongcart-day1 --display-name "Python (klongcart-day1)"
 ```
 
-`mise install` reads `mise.toml` and `mise.lock`. It installs Python 3.15.2 and uv 0.13.7. `uv sync --frozen` installs the learner packages from `uv.lock` and does not install the `dev` group. pytest is in that group. You do not need it to follow the timetable.
+These commands install Python 3.15.2, uv 0.13.7, the packages in `uv.lock`, and the notebook kernel. The `dev` group is not needed for class.
 
-`mise.toml` sets `UV_PYTHON` to the Python mise installed. uv then builds `.venv` from that interpreter. `.python-version` is also `3.15.2`. After the sync, an activated mise shell puts `.venv` first on `PATH`. Run project commands with `uv run` so the interpreter cannot drift back to another Python.
+Run project commands with `uv run` to use the project environment.
 
 Check the interpreter:
 
@@ -135,17 +135,9 @@ Check the interpreter:
 uv run python -c "import sys; print(sys.version); print(sys.executable)"
 ```
 
-On this Linux machine the version line was `3.15.2 (main, Oct 26 2026, 14:06:56) [Clang 23.1.3 ]` and the executable was `/workspace/.venv/bin/python`. Your folder will differ. The version must be 3.15.2 and the path must be the repo `.venv`, not a system Python. On Windows the executable ends in `.venv\Scripts\python.exe`. That path was not run here.
+Check for Python 3.15.2 and an executable in the repo `.venv`, not a system Python. On Windows, the path ends in `.venv\Scripts\python.exe`.
 
-The learner packages are numpy, pandas, matplotlib, scikit-learn, joblib, streamlit, jupyter, and ipykernel. joblib is how the afternoon saves the model. Do not add MLflow, DVC, or Feast today.
-
-On this Linux machine the kernel command printed:
-
-```text
-Installed kernelspec klongcart-day1 in /home/ubuntu/.local/share/jupyter/kernels/klongcart-day1
-```
-
-The folder under your home directory will differ. The important line is `Installed kernelspec klongcart-day1`.
+The kernel install prints `Installed kernelspec klongcart-day1`. The location depends on your home directory. Use the installed packages for class. Do not add MLflow, DVC, or Feast today.
 
 ## Check the table
 
@@ -155,31 +147,13 @@ From the repo folder, with the environment active:
 uv run python -m generate --check
 ```
 
-Linux result from this prep:
-
-```text
-match /workspace/01-supervised-learning/data/klongcart_customers.csv rows=2400
-```
-
-Your path will be the repo you cloned. The line still ends in `rows=2400`. A mismatch means the CSV was edited. Do not edit it. The generator and the file are the same draw, seed 42, 2,400 rows.
+Expect a `match` line ending in `rows=2400`. The path depends on where you cloned the repo. Do not edit the CSV. It contains 2,400 synthetic rows drawn with seed 42.
 
 ```sh
 uv run python -m smoke
 ```
 
-Linux result:
-
-```text
-python 3.15.2
-numpy 2.5.4
-pandas 3.1.1
-matplotlib 3.11.2
-scikit-learn 1.9.1
-streamlit 1.67.0
-rows 2400
-columns tenure_days, orders_90d, spend_thb_90d, avg_basket_thb_90d, days_since_last_order, promo_order_share_90d, app_sessions_90d, support_tickets_90d, district, plan, primary_aisle, churned, next_month_spend_thb
-smoke ok
-```
+Expect the package versions, `rows 2400`, the column names, and `smoke ok`. See [Library versions](#library-versions) for the expected versions.
 
 ## Open the notebooks
 
@@ -205,7 +179,7 @@ Run the notebooks in order.
 
 Each notebook loads the CSV itself. You can restart the kernel between files.
 
-These prints come from the cells that are already filled in. They are how you know the table and the split loaded.
+The completed setup cells confirm the table and split:
 
 ```text
 (2400, 13)
@@ -214,9 +188,9 @@ overlap train and test 0
 churned is a label, not a feature: True
 ```
 
-## Exercises that are supposed to be blank
+## Complete the exercises
 
-The notebooks in git do not run from top to bottom until you fill the blanks. A blank left as `None`, or a function that still raises `NotImplementedError`, stops that notebook. That is the assignment, not a broken file.
+Fill each exercise before running the notebook from top to bottom. `None` and `NotImplementedError` mark intentional blanks, not broken files.
 
 | File | You fill in |
 | --- | --- |
@@ -228,21 +202,21 @@ The notebooks in git do not run from top to bottom until you fill the blanks. A 
 | `05_evaluate.ipynb` | test precision, test recall, and test ROC-AUC |
 | `app.py` | `churn_decision` |
 
-Finished notebooks, the filled `churn_decision`, and a saved model are not in this repo. Kan keeps those in a private archive for the teaching team. If a pair is still in an earlier notebook at 15:10, the instructor can hand them `models/churn_bundle.joblib` from that archive. Put the file in `models/` on the student laptop and start the form. Do not commit that file. Do not download a model from the internet. A joblib file can run code when it is loaded. Load only a file you fit in class, or a file the instructor hands you in the room.
+If you are still in an earlier notebook at 15:25, ask the instructor for both checkpoint bundles. Follow [Resume points](checkpoints/README.md) to use them.
 
-`checkpoints/README.md` is the short version of the same resume rules.
+A joblib file can run code when loaded. Load only a model you fit in class or receive from the instructor in the room. Do not download a model from the internet or commit a saved model.
 
 ## Run the form
 
-After notebook 05 saves the bundle, from the repository root:
+At 15:25, after notebook 05 and notebook 06 have saved their bundles, from the repository root:
 
 ```sh
 uv run python -m streamlit run 01-supervised-learning/app.py
 ```
 
-Before that file exists, the page stops with an error. The error names the missing path, tells you to finish notebook 05, and warns you about joblib. Refresh after the file is there.
+If a bundle is missing, the page shows its path. Finish notebook 05 and notebook 06, or use both instructor checkpoint bundles, then refresh.
 
-The form asks for the same columns the model was fit on. Spend with zero orders is rejected. The probability is shown by the starter. The line `Offer a voucher` appears after you replace the `NotImplementedError` in `churn_decision`. Return `yes` when the probability is at least the threshold. Return `no` otherwise.
+Enter the model's feature values. The form rejects spend with zero orders. Complete `churn_decision` in `app.py` to show `Offer a voucher` alongside the probability. Return `yes` when the probability is at least the threshold, and `no` otherwise.
 
 The optional expander under the form is an engineer stretch for one more input rule. Notebook 05 has an optional stretch for gradient boosting and feature importance. Skip both during the timed demo.
 
@@ -252,7 +226,7 @@ Write each team's validation ROC-AUC on the board. That set is for choosing the 
 
 Run the test cell in notebook 05 once. Do not change the model after you see it.
 
-The public CSV already contains `churned`, so this repo cannot hide a test label. There is no leaderboard of secret answers. The instructor archive has a local scorer with a cap of two bundles. The cap is a file the instructor can delete. It is a turn-in limit, not a sealed exam.
+The public CSV contains `churned`. Test labels are not hidden, so this is not a sealed exam.
 
 ## If you are behind
 
@@ -263,10 +237,10 @@ Use the first cut that fits the clock.
 - 11:55: skip the paper rules in notebook 02.
 - 13:35: skip the forest exercise. Keep the logistic print and move to notebook 04.
 - 14:20 and the search is still running: stop it and call `tune_forest` with `n_iter=4`.
-- 15:05: save the bundle and open the form. Say the test numbers out loud only if the cell already finished.
-- 15:40 and the form has no file: take the instructor checkpoint. Do not refit during the demo.
+- 15:05: save the churn bundle if notebook 05 already finished, then start notebook 06. Do not open the form yet.
+- 15:25 and a bundle is missing: take both instructor checkpoint bundles and start the form. Do not refit during the demo.
 
-The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with at most 120 trees. On the Linux machine used for this prep, notebook 04 finished in 4.10 seconds, including kernel startup.
+The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with at most 120 trees.
 
 ## Troubleshooting
 
@@ -276,9 +250,9 @@ The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with 
 
 The kernel list has no `klongcart-day1`. From the repo folder, run the `uv run python -m ipykernel install` command again.
 
-The form says there is no model file. Finish notebook 05, or ask for the instructor file, then refresh.
+The form says there is no model file. Finish notebook 05 and notebook 06, or ask for both instructor files, then refresh.
 
-The form says `Finish churn_decision`. That is the 15:10 exercise. Fill in `churn_decision` in `app.py` and save the file. Streamlit reruns the script.
+The form says `Finish churn_decision`. That is the 15:25 exercise. Fill in `churn_decision` in `app.py` and save the file. Streamlit reruns the script.
 
 `streamlit` says the port is in use. Run `uv run python -m streamlit run 01-supervised-learning/app.py --server.port 8502`.
 
@@ -293,19 +267,11 @@ uv sync --frozen --group dev
 uv run --group dev python -m pytest tests -q --tb=line
 ```
 
-`uv sync --frozen` without `--group dev` leaves pytest uninstalled. This Linux prep checked that import and got `ModuleNotFoundError: No module named 'pytest'`.
-
-Linux result for the dev command during this prep:
-
-```text
-24 passed in 2.36s
-```
-
-Those tests check the table, the split, the pipelines, the bundle round trip, the starter form, and that the public notebooks still contain the blanks. They do not contain the exercise answers.
+These optional checks cover the table, split, pipelines, saved bundles, starter form, and exercise blanks. They do not contain exercise answers.
 
 ## Library versions
 
-Resolved by `uv lock` on CPython 3.15.2 and imported on Linux. The lock is `uv.lock`. Do not add a second requirements file.
+The versions below were resolved by `uv lock` on CPython 3.15.2. Use `uv.lock`. Do not add a second requirements file.
 
 | Package | Version | Documentation used for this day |
 | --- | --- | --- |
@@ -323,4 +289,4 @@ Resolved by `uv lock` on CPython 3.15.2 and imported on Linux. The lock is `uv.l
 
 The automated checks also used pytest 9.2.0, nbclient 0.11.0, and nbformat 5.10.4.
 
-`uv.lock` records PyYAML 6.0.3 as a source distribution. PyPI has no cp315 wheel for that release. The frozen sync on this Linux machine compiled it. A laptop without a C compiler can fail at that build.
+`uv.lock` installs PyYAML 6.0.3 from source because that release has no cp315 wheel. If the build fails, check that your laptop has a C compiler.
