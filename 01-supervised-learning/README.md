@@ -12,10 +12,6 @@ Day 1 of the Machine Learning Bootcamp. You build two local checks for Fresh and
 - 1.8 [Score one customer](app.py)
 - [Column notes](data/DATA_DICTIONARY.md)
 
-The class runs 09:00 to 16:00 Bangkok time. Work in pairs inside five teams. The session is taught in Thai. These notes are in English.
-
-The score is a classroom demo. It is not a production retention system. The rows were drawn by `lib/generate.py`. They are not real shoppers.
-
 Run the commands on this page from `01-supervised-learning` (this folder), unless a step says otherwise. Tool pins live in the repo `mise.toml`.
 
 ## What you build
@@ -32,7 +28,7 @@ Features stop on 30 June 2026. That window is 2 April 2026 through 30 June 2026,
 
 ## Objectives
 
-By 16:00, you can:
+By the end of this workshop, you can:
 
 - Say what the train rows, the validation rows, and the test rows are for.
 - Compute a churn rate and name three facts from the table.
@@ -42,29 +38,6 @@ By 16:00, you can:
 - Score the churn test rows once, then save the churn bundle.
 - Compare a mean spend baseline with ridge regression using MAE and RMSE in THB, then save the spend bundle.
 - Show the churn probability, the yes or no decision, and the spend estimate in the form.
-
-## Timetable
-
-| Bangkok time | What you do | Notebook |
-| --- | --- | --- |
-| 09:00 to 09:10 | The question, supervised learning, and the loop | `00_start.ipynb` |
-| 09:10 to 09:50 | Environment, kernel, smoke check | this page |
-| 09:50 to 10:30 | Dicts, functions, f-strings, three exercises | `00_start.ipynb` |
-| 10:30 to 10:45 | Break | |
-| 10:45 to 11:25 | Read, filter, group, plot, churn rate, three observations | `01_eda.ipynb` |
-| 11:25 to 12:00 | Majority baseline and the three-way split. Optional paper rules | `02_split.ipynb` |
-| 12:00 to 13:00 | Lunch | |
-| 13:00 to 13:40 | Logistic regression, random forest, pipeline, cross-validation on train | `03_train_cv.ipynb` |
-| 13:40 to 14:30 | Small random search, compare with the baseline, look at the train gap | `04_tune.ipynb` |
-| 14:30 to 14:45 | Break | |
-| 14:45 to 15:05 | Confusion matrix, precision, recall, ROC-AUC, threshold, one churn test check, save | `05_evaluate.ipynb` |
-| 15:05 to 15:25 | Mean spend baseline, ridge, validation MAE, one test MAE and RMSE | `06_regression.ipynb` |
-| 15:25 to 15:45 | Form, both bundles, yes or no line, spend in THB | `app.py` |
-| 15:45 to 16:00 | Demo. Say the data is synthetic | |
-
-Classification is the main task. The 15:05 block compares spend models on the same rows. A ridge search larger than `n_iter=4` is optional and outside the timetable.
-
-The business learner in each pair sets the cost card. Defaults are 500 THB for a missed churner and 100 THB for a wasted voucher. If your team changes these costs, edit them in notebook 05 before running the test cell.
 
 ## Before class
 
@@ -208,7 +181,7 @@ A joblib file can run code when loaded. Load only a model you fit in class or re
 
 ## Run the form
 
-At 15:25, after notebook 05 and notebook 06 have saved their bundles, from this folder:
+After notebook 05 and notebook 06 have saved their bundles, from this folder:
 
 ```sh
 uv run python -m streamlit run app.py
@@ -219,28 +192,6 @@ If a bundle is missing, the page shows its path. Finish notebook 05 and notebook
 Enter the model's feature values. The form rejects spend with zero orders. Complete `churn_decision` in `app.py` to show `Offer a voucher` alongside the probability. Return `yes` when the probability is at least the threshold, and `no` otherwise.
 
 The optional expander under the form is an engineer stretch for one more input rule. Notebook 05 has an optional stretch for gradient boosting and feature importance. Skip both during the timed demo.
-
-## Compare teams without a hidden test
-
-Write each team's validation ROC-AUC on the board. That set is for choosing the model and the threshold.
-
-Run the test cell in notebook 05 once. Do not change the model after you see it.
-
-The public CSV contains `churned`. Test labels are not hidden, so this is not a sealed exam.
-
-## If you are behind
-
-Use the first cut that fits the clock.
-
-- 10:25 and still on Python: skip `quiet_customer`.
-- 11:20 and still on the table: skip the bar chart. Keep the plan rates and the three sentences.
-- 11:55: skip the paper rules in notebook 02.
-- 13:35: skip the forest exercise. Keep the logistic print and move to notebook 04.
-- 14:20 and the search is still running: stop it and call `tune_forest` with `n_iter=4`.
-- 15:05: save the churn bundle if notebook 05 already finished, then start notebook 06. Do not open the form yet.
-- 15:25 and a bundle is missing: take both instructor checkpoint bundles and start the form. Do not refit during the demo.
-
-The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with at most 120 trees.
 
 ## Troubleshooting
 
