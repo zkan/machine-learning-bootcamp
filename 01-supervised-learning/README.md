@@ -229,7 +229,7 @@ The versions below were resolved by `uv lock` on CPython 3.15.2. Use `uv.lock`. 
 | Python | 3.15.2 | [Python 3.15.2](https://www.python.org/downloads/release/python-3152/) |
 | numpy | 2.5.4 | generator |
 | pandas | 3.1.1 | [read_csv](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) |
-| matplotlib | 3.11.2 | bar chart in notebook 01 |
+| altair | 6.3.0 | [Vega-Altair](https://altair-viz.github.io/) charts in notebook 01 |
 | scikit-learn | 1.9.1 | [Pipelines](https://scikit-learn.org/stable/modules/compose.html), [RandomizedSearchCV](https://scikit-learn.org/1.9/modules/generated/sklearn.model_selection.RandomizedSearchCV.html), [MAE](https://scikit-learn.org/1.9/modules/generated/sklearn.metrics.mean_absolute_error.html), [RMSE](https://scikit-learn.org/1.9/modules/generated/sklearn.metrics.root_mean_squared_error.html) |
 | joblib | 1.6.0 | save and load the bundle |
 | streamlit | 1.67.0 | [AppTest](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest) |
