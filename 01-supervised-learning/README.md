@@ -2,21 +2,21 @@
 
 Day 1 of the Machine Learning Bootcamp. You build two local checks for Fresh and Good, a fictional Bangkok online grocery. Classification asks who places no paid order next month. Regression asks how many baht they spend in that same month.
 
-- 1.1 [Start and Python](notebooks/00_start.ipynb)
-- 1.2 [Look at the customers](notebooks/01_eda.ipynb)
-- 1.3 [Split the rows](notebooks/02_split.ipynb)
-- 1.4 [Fit on the train rows](notebooks/03_train_cv.ipynb)
-- 1.5 [Compare a small search](notebooks/04_tune.ipynb)
-- 1.6 [Choose a threshold and check the test rows once](notebooks/05_evaluate.ipynb)
-- 1.7 [Estimate next-month spend](notebooks/06_regression.ipynb)
+- 1.1 [Start and Python](00_start.ipynb)
+- 1.2 [Look at the customers](01_eda.ipynb)
+- 1.3 [Split the rows](02_split.ipynb)
+- 1.4 [Fit on the train rows](03_train_cv.ipynb)
+- 1.5 [Compare a small search](04_tune.ipynb)
+- 1.6 [Choose a threshold and check the test rows once](05_evaluate.ipynb)
+- 1.7 [Estimate next-month spend](06_regression.ipynb)
 - 1.8 [Score one customer](app.py)
 - [Column notes](data/DATA_DICTIONARY.md)
 
 The class runs 09:00 to 16:00 Bangkok time. Work in pairs inside five teams. The session is taught in Thai. These notes are in English.
 
-The score is a classroom demo. It is not a production retention system. The rows were drawn by `generate.py`. They are not real shoppers.
+The score is a classroom demo. It is not a production retention system. The rows were drawn by `lib/generate.py`. They are not real shoppers.
 
-Run the commands on this page from the repository root.
+Run the commands on this page from `01-supervised-learning` (this folder), unless a step says otherwise. Tool pins live in the repo `mise.toml`.
 
 ## What you build
 
@@ -47,18 +47,18 @@ By 16:00, you can:
 
 | Bangkok time | What you do | Notebook |
 | --- | --- | --- |
-| 09:00 to 09:10 | The question, supervised learning, and the loop | `notebooks/00_start.ipynb` |
+| 09:00 to 09:10 | The question, supervised learning, and the loop | `00_start.ipynb` |
 | 09:10 to 09:50 | Environment, kernel, smoke check | this page |
-| 09:50 to 10:30 | Dicts, functions, f-strings, three exercises | `notebooks/00_start.ipynb` |
+| 09:50 to 10:30 | Dicts, functions, f-strings, three exercises | `00_start.ipynb` |
 | 10:30 to 10:45 | Break | |
-| 10:45 to 11:25 | Read, filter, group, plot, churn rate, three observations | `notebooks/01_eda.ipynb` |
-| 11:25 to 12:00 | Majority baseline and the three-way split. Optional paper rules | `notebooks/02_split.ipynb` |
+| 10:45 to 11:25 | Read, filter, group, plot, churn rate, three observations | `01_eda.ipynb` |
+| 11:25 to 12:00 | Majority baseline and the three-way split. Optional paper rules | `02_split.ipynb` |
 | 12:00 to 13:00 | Lunch | |
-| 13:00 to 13:40 | Logistic regression, random forest, pipeline, cross-validation on train | `notebooks/03_train_cv.ipynb` |
-| 13:40 to 14:30 | Small random search, compare with the baseline, look at the train gap | `notebooks/04_tune.ipynb` |
+| 13:00 to 13:40 | Logistic regression, random forest, pipeline, cross-validation on train | `03_train_cv.ipynb` |
+| 13:40 to 14:30 | Small random search, compare with the baseline, look at the train gap | `04_tune.ipynb` |
 | 14:30 to 14:45 | Break | |
-| 14:45 to 15:05 | Confusion matrix, precision, recall, ROC-AUC, threshold, one churn test check, save | `notebooks/05_evaluate.ipynb` |
-| 15:05 to 15:25 | Mean spend baseline, ridge, validation MAE, one test MAE and RMSE | `notebooks/06_regression.ipynb` |
+| 14:45 to 15:05 | Confusion matrix, precision, recall, ROC-AUC, threshold, one churn test check, save | `05_evaluate.ipynb` |
+| 15:05 to 15:25 | Mean spend baseline, ridge, validation MAE, one test MAE and RMSE | `06_regression.ipynb` |
 | 15:25 to 15:45 | Form, both bundles, yes or no line, spend in THB | `app.py` |
 | 15:45 to 16:00 | Demo. Say the data is synthetic | |
 
@@ -117,7 +117,7 @@ Check that the version is 2026.11.3.
 
 ## Create the environment
 
-From the repo folder, after mise is on your `PATH`:
+From this folder (`01-supervised-learning`), after mise is on your `PATH`:
 
 ```sh
 mise install
@@ -125,7 +125,7 @@ uv sync --frozen
 uv run python -m ipykernel install --user --name fresh-and-good-day1 --display-name "Python (fresh-and-good-day1)"
 ```
 
-These commands install Python 3.15.2, uv 0.13.7, the packages in `uv.lock`, and the notebook kernel. The `dev` group is not needed for class.
+These commands install Python 3.15.2 and uv 0.13.7 from the repo `mise.toml`, then the packages in this folder's `uv.lock`, and the notebook kernel. The `dev` group is not needed for class.
 
 Run project commands with `uv run` to use the project environment.
 
@@ -135,19 +135,19 @@ Check the interpreter:
 uv run python -c "import sys; print(sys.version); print(sys.executable)"
 ```
 
-Check for Python 3.15.2 and an executable in the repo `.venv`, not a system Python. On Windows, the path ends in `.venv\Scripts\python.exe`.
+Check for Python 3.15.2 and an executable in this folder's `.venv`, not a system Python. On Windows, the path ends in `.venv\Scripts\python.exe`.
 
-The kernel install prints `Installed kernelspec fresh-and-good-day1`. The location depends on your home directory. Use the installed packages for class. Do not add MLflow, DVC, or Feast today.
+Run `mise install` once from the repo root if the tool pins are not installed yet. The kernel install prints `Installed kernelspec fresh-and-good-day1`. The location depends on your home directory. Use the installed packages for class. Do not add MLflow, DVC, or Feast today.
 
 ## Check the table
 
-From the repo folder, with the environment active:
+From this folder, with the environment active:
 
 ```sh
 uv run python -m generate --check
 ```
 
-Expect a `match` line ending in `rows=2400`. The path depends on where you cloned the repo. Do not edit the CSV. It contains 2,400 synthetic rows drawn with seed 42.
+Expect a `match` line ending in `rows=2400`. Do not edit the CSV. It contains 2,400 synthetic rows drawn with seed 42.
 
 ```sh
 uv run python -m smoke
@@ -157,25 +157,25 @@ Expect the package versions, `rows 2400`, the column names, and `smoke ok`. See 
 
 ## Open the notebooks
 
-From the repo folder:
+From this folder:
 
 ```sh
 uv run python -m jupyter notebook
 ```
 
-Open `01-supervised-learning/notebooks/00_start.ipynb`. If the kernel menu lists more than one Python, choose Python (fresh-and-good-day1).
+Open `00_start.ipynb`. If the kernel menu lists more than one Python, choose Python (fresh-and-good-day1).
 
-The first code cell prints `cwd` and `module`. Start Jupyter from the repo folder, from `01-supervised-learning`, or from `01-supervised-learning/notebooks`. Other folders fail that cell on purpose.
+The first code cell prints `cwd` and `module`. Start Jupyter from the repo folder or from `01-supervised-learning`. Other folders fail that cell on purpose.
 
 Run the notebooks in order.
 
-1. `01-supervised-learning/notebooks/00_start.ipynb`
-2. `01-supervised-learning/notebooks/01_eda.ipynb`
-3. `01-supervised-learning/notebooks/02_split.ipynb`
-4. `01-supervised-learning/notebooks/03_train_cv.ipynb`
-5. `01-supervised-learning/notebooks/04_tune.ipynb`
-6. `01-supervised-learning/notebooks/05_evaluate.ipynb`
-7. `01-supervised-learning/notebooks/06_regression.ipynb`
+1. `00_start.ipynb`
+2. `01_eda.ipynb`
+3. `02_split.ipynb`
+4. `03_train_cv.ipynb`
+5. `04_tune.ipynb`
+6. `05_evaluate.ipynb`
+7. `06_regression.ipynb`
 
 Each notebook loads the CSV itself. You can restart the kernel between files.
 
@@ -208,10 +208,10 @@ A joblib file can run code when loaded. Load only a model you fit in class or re
 
 ## Run the form
 
-At 15:25, after notebook 05 and notebook 06 have saved their bundles, from the repository root:
+At 15:25, after notebook 05 and notebook 06 have saved their bundles, from this folder:
 
 ```sh
-uv run python -m streamlit run 01-supervised-learning/app.py
+uv run python -m streamlit run app.py
 ```
 
 If a bundle is missing, the page shows its path. Finish notebook 05 and notebook 06, or use both instructor checkpoint bundles, then refresh.
@@ -244,23 +244,21 @@ The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with 
 
 ## Troubleshooting
 
-`ModuleNotFoundError` for `schema` or `pipelines`. Start Jupyter from the repo folder, from `01-supervised-learning`, or from its notebooks folder. The first cell prints `cwd` and `module` when it works. Run `uv` through mise so `PYTHONPATH` includes this module.
+`ModuleNotFoundError` for `schema` or `pipelines`. Start Jupyter from the repo folder or from `01-supervised-learning`. The first cell prints `cwd` and `module` when it works. Run `uv` through mise so `PYTHONPATH` includes `lib`.
 
-`uv run python -m generate --check` prints `mismatch`. Leave the CSV alone. Run the command from the repo folder.
+`uv run python -m generate --check` prints `mismatch`. Leave the CSV alone. Run the command from this folder.
 
-The kernel list has no `fresh-and-good-day1`. From the repo folder, run the `uv run python -m ipykernel install` command again.
+The kernel list has no `fresh-and-good-day1`. From this folder, run the `uv run python -m ipykernel install` command again.
 
 The form says there is no model file. Finish notebook 05 and notebook 06, or ask for both instructor files, then refresh.
 
 The form says `Finish churn_decision`. That is the 15:25 exercise. Fill in `churn_decision` in `app.py` and save the file. Streamlit reruns the script.
 
-`streamlit` says the port is in use. Run `uv run python -m streamlit run 01-supervised-learning/app.py --server.port 8502`.
-
-From inside `01-supervised-learning`, the same form command is `uv run python -m streamlit run app.py`.
+`streamlit` says the port is in use. Run `uv run python -m streamlit run app.py --server.port 8502`.
 
 ## Checks for the teaching team
 
-The `dev` group is pytest, nbclient, and nbformat. From the repo folder:
+The `dev` group is pytest, nbclient, and nbformat. From this folder:
 
 ```sh
 uv sync --frozen --group dev

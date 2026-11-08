@@ -26,5 +26,5 @@ package = false
 default-groups = []
 
 [tool.pytest.ini_options]
-pythonpath = ["01-supervised-learning"]
-testpaths = ["01-supervised-learning/tests"]
+pythonpath = ["lib"]
+testpaths = ["tests"]

@@ -1,7 +1,6 @@
 import json
 import subprocess
 import sys
-from pathlib import Path
 
 from paths import module_root
 
@@ -17,7 +16,7 @@ NOTEBOOKS = (
 
 
 def _notebook(name):
-    path = module_root() / "notebooks" / name
+    path = module_root() / name
     return json.loads(path.read_text())
 
 
@@ -27,7 +26,7 @@ def _code(notebook, index):
 
 
 def test_notebook_names_and_exercises():
-    folder = module_root() / "notebooks"
+    folder = module_root()
     assert [path.name for path in sorted(folder.glob("*.ipynb"))] == list(NOTEBOOKS)
     for name in NOTEBOOKS:
         text = (folder / name).read_text()
@@ -36,17 +35,17 @@ def test_notebook_names_and_exercises():
 
 
 def test_public_notebooks_keep_placeholders():
-    start = (module_root() / "notebooks" / "00_start.ipynb").read_text()
+    start = (module_root() / "00_start.ipynb").read_text()
     assert "NotImplementedError" in start
     assert '"plan": "none"' not in start
-    evaluate = (module_root() / "notebooks" / "05_evaluate.ipynb").read_text()
+    evaluate = (module_root() / "05_evaluate.ipynb").read_text()
     assert "test_precision = None" in evaluate
     assert "test_precision = float" not in evaluate
 
 
 def test_boot_cell_finds_the_module_from_supported_folders():
     source = _code(_notebook("01_eda.ipynb"), 0)
-    folders = (module_root().parent, module_root(), module_root() / "notebooks")
+    folders = (module_root().parent, module_root())
     for folder in folders:
         completed = subprocess.run(
             [sys.executable, "-c", source],

@@ -1,6 +1,6 @@
 # Fresh and Good churn table
 
-This file is synthetic. Fresh and Good is a fictional Bangkok online grocery. The generator is `generate.py` in this module. It draws 2,400 customers with seed 42. Do not treat a score from this table as a real retention decision.
+This file is synthetic. Fresh and Good is a fictional Bangkok online grocery. The generator is `lib/generate.py`. It draws 2,400 customers with seed 42. Do not treat a score from this table as a real retention decision.
 
 Each row is one customer at one snapshot.
 

@@ -1,4 +1,4 @@
-# Day 1 workshop commands. Run make from this folder.
+# Day 1 workshop commands. Run make from this folder (pyproject.toml lives here).
 # mise exec selects the uv pin and PYTHONPATH from the repo mise.toml.
 # See README.md.
 

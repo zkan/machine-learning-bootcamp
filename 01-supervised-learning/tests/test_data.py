@@ -92,9 +92,9 @@ def test_ranges_and_churn_rate():
     assert "next 30 days" in dictionary
 
 
-def test_module_root_from_repo_module_and_notebooks():
+def test_module_root_from_repo_and_day_folder():
     module = data_csv().parents[1]
     assert module_root_from(module) == module
-    assert module_root_from(module / "notebooks") == module
+    assert module_root_from(module / "lib") == module
     assert module_root_from(module.parent) == module
     assert date(2026, 6, 30) == SNAPSHOT_DATE
