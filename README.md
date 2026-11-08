@@ -1,10 +1,8 @@
 # Machine Learning Bootcamp
 
-A six-day course for mixed beginner engineers and business learners. You work on your own laptop. Nothing in this repository calls a cloud service.
+A six-day course for beginner engineers and business learners, taught in Thai with English notes. Work on your own laptop without cloud services.
 
-This repository currently contains Day 1. Later days are not here yet.
-
-The class is taught in Thai. These notes are in English.
+Only Day 1 is available in this repository.
 
 ## Syllabus
 
@@ -12,7 +10,7 @@ The class is taught in Thai. These notes are in English.
 
 Build two local checks for KlongCart, a fictional Bangkok online grocery. Classification asks who will place no paid order next month. Regression asks how many baht they will spend next month.
 
-In this day, you will:
+On Day 1, you:
 
 - Set up Python 3.15.2 with mise and uv.
 - Read one synthetic customer table and keep both July outcomes out of the features.
@@ -20,6 +18,6 @@ In this day, you will:
 - Fit a spend regressor on the same rows, compare it with a mean baseline, and read MAE and RMSE in THB.
 - Type one customer into a form and read a churn probability, a yes or no, and an estimated spend.
 
-Outcome: a classroom form. The scores are synthetic. They are not a production retention system.
+The form uses synthetic data for a classroom demo, not a production retention system.
 
-Setup, the Bangkok timetable, the notebooks, the data, and the form are in that folder. Start with [01-supervised-learning/README.md](01-supervised-learning/README.md).
+Start with [01-supervised-learning/README.md](01-supervised-learning/README.md).
