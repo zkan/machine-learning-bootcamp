@@ -1,4 +1,4 @@
-from day1.schema import AISLES, DISTRICTS, FEATURE_COLUMNS, PLANS
+from schema import AISLES, DISTRICTS, FEATURE_COLUMNS, PLANS
 
 
 def input_errors(record: dict) -> list[str]:

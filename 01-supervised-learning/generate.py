@@ -4,15 +4,14 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from day1.paths import data_csv
-from day1.schema import (
+from paths import data_csv
+from schema import (
     AISLES,
     COLUMNS,
     DISTRICTS,
     N_ROWS,
     PLANS,
     RANDOM_STATE,
-    TARGET,
 )
 
 
@@ -65,6 +64,19 @@ def generate_customers(n: int = N_ROWS, seed: int = RANDOM_STATE) -> pd.DataFram
     churn_probability = 1.0 / (1.0 + np.exp(-logit))
     churned = rng.binomial(1, churn_probability).astype(int)
 
+    # Spend draws happen after churn so the feature and churn columns stay fixed.
+    log_spend = (
+        5.6
+        + 0.28 * np.log1p(orders_90d)
+        + 0.22 * np.log1p(spend_thb_90d)
+        - 0.008 * days_since_last_order
+        + 0.12 * (plan == "monthly").astype(float)
+        + 0.08 * (plan == "weekly").astype(float)
+        + rng.normal(0.0, 0.55, size=n)
+    )
+    stayed_spend = np.round(np.clip(np.exp(log_spend), 40.0, 25000.0), 2)
+    next_month_spend_thb = np.where(churned == 1, 0.0, stayed_spend)
+
     frame = pd.DataFrame(
         {
             "tenure_days": tenure_days.astype(int),
@@ -78,7 +90,8 @@ def generate_customers(n: int = N_ROWS, seed: int = RANDOM_STATE) -> pd.DataFram
             "district": district,
             "plan": plan,
             "primary_aisle": aisle,
-            TARGET: churned,
+            "churned": churned,
+            "next_month_spend_thb": next_month_spend_thb.astype(float),
         }
     )
     return frame.loc[:, COLUMNS]
@@ -103,7 +116,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit 0 when data/klongcart_churn.csv matches a fresh draw. Write nothing.",
+        help="Exit 0 when data/klongcart_customers.csv matches a fresh draw. Write nothing.",
     )
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args(argv)

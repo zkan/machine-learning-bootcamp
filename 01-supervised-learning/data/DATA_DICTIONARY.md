@@ -1,6 +1,6 @@
 # KlongCart churn table
 
-This file is synthetic. KlongCart is a fictional Bangkok online grocery. The generator is `day1/generate.py`. It draws 2,400 customers with seed 42. Do not treat a score from this table as a real retention decision.
+This file is synthetic. KlongCart is a fictional Bangkok online grocery. The generator is `generate.py` in this module. It draws 2,400 customers with seed 42. Do not treat a score from this table as a real retention decision.
 
 Each row is one customer at one snapshot.
 
@@ -36,8 +36,10 @@ The label is not a feature. The table has no customer id, email, phone, or any c
 
 `primary_aisle`. Text. Aisle with the most items in the feature window. One of `fresh`, `pantry`, `household`, `ready_meal`.
 
-`churned`. Integer 0 or 1. Future outcome in the label window. This column is the model's target. Do not put it, or a rewrite of it, into the features.
+`churned`. Integer 0 or 1. Future outcome in the label window. This is the classification target. 1 means no paid order in July. Do not put it into the features of either model.
 
-## What the model may use
+`next_month_spend_thb`. Number. Thai baht the customer pays during the same July window. This is the regression target. It is 0 when `churned` is 1, because no paid order means no spend. It is greater than 0 when `churned` is 0. Do not put it into the features of either model.
 
-The model may use the eight numeric columns and the three text columns above. It may not use `churned`. It may not use an identifier. It may not use a column from the label window, such as orders in the next 30 days or a churn date.
+## What the models may use
+
+Both models may use the eight numeric columns and the three text columns above. Classification predicts `churned`. Regression predicts `next_month_spend_thb`. Neither model may use the other target, an identifier, or another column from July, such as an order count in the next 30 days or a churn date.

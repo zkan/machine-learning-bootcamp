@@ -24,8 +24,10 @@ CATEGORICAL_FEATURES = (
 )
 
 FEATURE_COLUMNS = NUMERIC_FEATURES + CATEGORICAL_FEATURES
-TARGET = "churned"
-COLUMNS = FEATURE_COLUMNS + (TARGET,)
+CHURN_TARGET = "churned"
+SPEND_TARGET = "next_month_spend_thb"
+TARGET = CHURN_TARGET
+COLUMNS = FEATURE_COLUMNS + (CHURN_TARGET, SPEND_TARGET)
 
 DISTRICTS = ("Bang Kapi", "Chatuchak", "Lat Phrao", "Huai Khwang", "Bang Na")
 PLANS = ("none", "weekly", "monthly")

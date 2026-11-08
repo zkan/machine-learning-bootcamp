@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from day1.schema import RANDOM_STATE, TARGET, TEST_FRACTION, VALIDATION_FRACTION_OF_REST
+from schema import RANDOM_STATE, TARGET, TEST_FRACTION, VALIDATION_FRACTION_OF_REST
 
 
 def split_customers(

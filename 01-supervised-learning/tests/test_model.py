@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import roc_auc_score
 
-from day1.frame import features_and_target
-from day1.models import make_logistic_pipeline, tune_forest
-from day1.paths import data_csv
-from day1.persist import DecisionBundle, load_bundle, save_bundle
-from day1.schema import FEATURE_COLUMNS, TARGET
-from day1.split import split_customers
-from day1.threshold import choose_threshold, labels_at, total_cost
+from frame import features_and_target
+from paths import data_csv
+from persist import TASK_CHURN, DecisionBundle, load_bundle, save_bundle, save_spend_bundle
+from pipelines import make_logistic_pipeline, tune_forest
+from schema import CHURN_TARGET, FEATURE_COLUMNS, SPEND_TARGET, TARGET
+from split import split_customers
+from threshold import choose_threshold, labels_at, total_cost
 
 
 def test_threshold_on_a_known_card():
@@ -82,11 +82,13 @@ def test_bundle_round_trip_and_column_guard(tmp_path):
     assert np.allclose(fresh, again)
     broken = DecisionBundle(
         pipeline=pipe,
+        task=TASK_CHURN,
+        target=TARGET,
+        feature_columns=("tenure_days",),
+        synthetic=True,
         threshold=0.35,
         cost_fn_thb=500,
         cost_fp_thb=100,
-        feature_columns=("tenure_days",),
-        synthetic=True,
     )
     import joblib
 
@@ -106,3 +108,24 @@ def test_bundle_round_trip_and_column_guard(tmp_path):
     else:
         raise AssertionError("a missing bundle should fail the load")
     assert TARGET not in x_train.columns
+    assert SPEND_TARGET not in x_train.columns
+    spend_features, spend_labels = features_and_target(train, SPEND_TARGET)
+    assert CHURN_TARGET not in spend_features.columns
+    assert SPEND_TARGET not in spend_features.columns
+    spend_path = tmp_path / "spend.joblib"
+    from pipelines import make_ridge_pipeline
+
+    ridge = make_ridge_pipeline()
+    ridge.fit(spend_features, spend_labels)
+    save_spend_bundle(spend_path, ridge)
+    try:
+        load_bundle(spend_path, expected_task=TASK_CHURN)
+    except ValueError as exc:
+        assert "spend" in str(exc) and "churn" in str(exc)
+    else:
+        raise AssertionError("a spend bundle must not load as churn")
+    from spend import clip_spend, spend_scores
+
+    scores = spend_scores([0.0, 100.0], [-25.0, 80.0])
+    assert clip_spend([-25.0])[0] == 0.0
+    assert scores["mae_thb"] == 10.0

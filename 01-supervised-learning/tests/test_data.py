@@ -3,10 +3,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from day1.frame import features_and_target
-from day1.generate import customer_bytes, generate_customers, main
-from day1.paths import data_csv, repo_root_from
-from day1.schema import (
+from frame import features_and_target
+from generate import customer_bytes, generate_customers, main
+from paths import data_csv, module_root_from
+from schema import (
     COLUMNS,
     FEATURE_COLUMNS,
     FEATURE_WINDOW_END,
@@ -16,6 +16,7 @@ from day1.schema import (
     LEAKAGE_NAMES,
     N_ROWS,
     SNAPSHOT_DATE,
+    SPEND_TARGET,
     TARGET,
 )
 
@@ -53,9 +54,14 @@ def test_table_shape_and_banned_columns():
     assert set(frame[TARGET].unique()) == {0, 1}
     assert set(frame.columns).isdisjoint(LEAKAGE_NAMES)
     features, labels = features_and_target(frame)
+    spend_features, spend_labels = features_and_target(frame, SPEND_TARGET)
     assert list(features.columns) == list(FEATURE_COLUMNS)
     assert TARGET not in features.columns
+    assert SPEND_TARGET not in features.columns
+    assert TARGET not in spend_features.columns
+    assert SPEND_TARGET not in spend_features.columns
     assert labels.tolist() == frame[TARGET].tolist()
+    assert spend_labels.tolist() == frame[SPEND_TARGET].tolist()
 
 
 def test_extra_future_column_stays_out_of_features():
@@ -75,6 +81,10 @@ def test_ranges_and_churn_rate():
     zero_orders = frame["orders_90d"] == 0
     assert (frame.loc[zero_orders, "spend_thb_90d"] == 0).all()
     assert int(frame[TARGET].sum()) == 714
+    assert (frame[SPEND_TARGET] >= 0).all()
+    churned = frame[TARGET] == 1
+    assert (frame.loc[churned, SPEND_TARGET] == 0).all()
+    assert (frame.loc[~churned, SPEND_TARGET] > 0).all()
     dictionary = (data_csv().parent / "DATA_DICTIONARY.md").read_text()
     for name in COLUMNS:
         assert name in dictionary
@@ -82,8 +92,9 @@ def test_ranges_and_churn_rate():
     assert "next 30 days" in dictionary
 
 
-def test_repo_root_from_repo_and_notebooks():
-    root = data_csv().parents[1]
-    assert repo_root_from(root) == root
-    assert repo_root_from(root / "notebooks") == root
+def test_module_root_from_repo_module_and_notebooks():
+    module = data_csv().parents[1]
+    assert module_root_from(module) == module
+    assert module_root_from(module / "notebooks") == module
+    assert module_root_from(module.parent) == module
     assert date(2026, 6, 30) == SNAPSHOT_DATE

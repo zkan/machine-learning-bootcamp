@@ -1,9 +1,9 @@
 import pandas as pd
 
-from day1.frame import features_and_target
-from day1.paths import data_csv
-from day1.schema import N_ROWS, TARGET
-from day1.split import split_customers
+from frame import features_and_target
+from paths import data_csv
+from schema import N_ROWS, TARGET
+from split import split_customers
 
 
 def _customers() -> pd.DataFrame:

@@ -6,9 +6,9 @@ import pandas
 import sklearn
 import streamlit
 
-from day1.generate import customer_bytes
-from day1.paths import data_csv
-from day1.schema import COLUMNS, N_ROWS
+from generate import customer_bytes
+from paths import data_csv
+from schema import COLUMNS, N_ROWS
 
 
 def main() -> int:
