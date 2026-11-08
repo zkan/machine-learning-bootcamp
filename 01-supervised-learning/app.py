@@ -42,14 +42,14 @@ def _load(path: Path, task: str, missing_notebook: str):
 
 
 def main() -> None:
-    st.title("KlongCart supervised demo")
+    st.title("Fresh and Good supervised demo")
     st.caption(
         "Synthetic classroom scores for a fictional grocery. This is not a production system. "
         "Churn is a yes or no. Next-month spend is an amount in THB. "
         "Load only a bundle you fit in class. A joblib file can run code when it is loaded."
     )
-    churn_path = _path("KLONGCART_CHURN_BUNDLE", churn_bundle_path())
-    spend_path = _path("KLONGCART_SPEND_BUNDLE", spend_bundle_path())
+    churn_path = _path("FRESH_AND_GOOD_CHURN_BUNDLE", churn_bundle_path())
+    spend_path = _path("FRESH_AND_GOOD_SPEND_BUNDLE", spend_bundle_path())
     churn_bundle, churn_error = _load(churn_path, TASK_CHURN, "notebook 05")
     spend_bundle, spend_error = _load(spend_path, TASK_SPEND, "notebook 06")
     if churn_error:

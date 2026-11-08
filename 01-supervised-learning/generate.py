@@ -112,11 +112,11 @@ def customer_bytes(frame: pd.DataFrame | None = None) -> bytes:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Write the synthetic KlongCart churn table.")
+    parser = argparse.ArgumentParser(description="Write the synthetic Fresh and Good churn table.")
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit 0 when data/klongcart_customers.csv matches a fresh draw. Write nothing.",
+        help="Exit 0 when data/fresh_and_good_customers.csv matches a fresh draw. Write nothing.",
     )
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args(argv)

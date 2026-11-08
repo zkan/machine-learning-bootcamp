@@ -1,6 +1,6 @@
 # Day 1: Supervised learning
 
-Day 1 of the Machine Learning Bootcamp. You build two local checks for KlongCart, a fictional Bangkok online grocery. Classification asks who places no paid order next month. Regression asks how many baht they spend in that same month.
+Day 1 of the Machine Learning Bootcamp. You build two local checks for Fresh and Good, a fictional Bangkok online grocery. Classification asks who places no paid order next month. Regression asks how many baht they spend in that same month.
 
 - 1.1 [Start and Python](notebooks/00_start.ipynb)
 - 1.2 [Look at the customers](notebooks/01_eda.ipynb)
@@ -122,7 +122,7 @@ From the repo folder, after mise is on your `PATH`:
 ```sh
 mise install
 uv sync --frozen
-uv run python -m ipykernel install --user --name klongcart-day1 --display-name "Python (klongcart-day1)"
+uv run python -m ipykernel install --user --name fresh-and-good-day1 --display-name "Python (fresh-and-good-day1)"
 ```
 
 These commands install Python 3.15.2, uv 0.13.7, the packages in `uv.lock`, and the notebook kernel. The `dev` group is not needed for class.
@@ -137,7 +137,7 @@ uv run python -c "import sys; print(sys.version); print(sys.executable)"
 
 Check for Python 3.15.2 and an executable in the repo `.venv`, not a system Python. On Windows, the path ends in `.venv\Scripts\python.exe`.
 
-The kernel install prints `Installed kernelspec klongcart-day1`. The location depends on your home directory. Use the installed packages for class. Do not add MLflow, DVC, or Feast today.
+The kernel install prints `Installed kernelspec fresh-and-good-day1`. The location depends on your home directory. Use the installed packages for class. Do not add MLflow, DVC, or Feast today.
 
 ## Check the table
 
@@ -163,7 +163,7 @@ From the repo folder:
 uv run python -m jupyter notebook
 ```
 
-Open `01-supervised-learning/notebooks/00_start.ipynb`. If the kernel menu lists more than one Python, choose Python (klongcart-day1).
+Open `01-supervised-learning/notebooks/00_start.ipynb`. If the kernel menu lists more than one Python, choose Python (fresh-and-good-day1).
 
 The first code cell prints `cwd` and `module`. Start Jupyter from the repo folder, from `01-supervised-learning`, or from `01-supervised-learning/notebooks`. Other folders fail that cell on purpose.
 
@@ -248,7 +248,7 @@ The random search in notebook 04 and notebook 05 uses 8 draws and 3 folds, with 
 
 `uv run python -m generate --check` prints `mismatch`. Leave the CSV alone. Run the command from the repo folder.
 
-The kernel list has no `klongcart-day1`. From the repo folder, run the `uv run python -m ipykernel install` command again.
+The kernel list has no `fresh-and-good-day1`. From the repo folder, run the `uv run python -m ipykernel install` command again.
 
 The form says there is no model file. Finish notebook 05 and notebook 06, or ask for both instructor files, then refresh.
 
@@ -285,7 +285,7 @@ The versions below were resolved by `uv lock` on CPython 3.15.2. Use `uv.lock`. 
 | joblib | 1.6.0 | save and load the bundle |
 | streamlit | 1.67.0 | [AppTest](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest) |
 | jupyter | 1.1.1 | notebook server |
-| ipykernel | 7.4.0 | kernel `klongcart-day1` |
+| ipykernel | 7.4.0 | kernel `fresh-and-good-day1` |
 
 The automated checks also used pytest 9.2.0, nbclient 0.11.0, and nbformat 5.10.4.
 

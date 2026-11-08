@@ -1,5 +1,5 @@
 [project]
-name = "klongcart-day1"
+name = "fresh-and-good-day1"
 version = "0.1.0"
 description = "Day 1 supervised learning workshop for the Machine Learning Bootcamp."
 requires-python = "==3.15.2"

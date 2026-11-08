@@ -8,7 +8,7 @@ def module_root() -> Path:
 
 
 def data_csv() -> Path:
-    return module_root() / "data" / "klongcart_customers.csv"
+    return module_root() / "data" / "fresh_and_good_customers.csv"
 
 
 def churn_bundle_path() -> Path:

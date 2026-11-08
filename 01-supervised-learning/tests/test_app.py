@@ -53,8 +53,8 @@ def _spend_bundle(tmp_path, train):
 
 
 def test_missing_bundle_tells_you_what_to_finish(monkeypatch, tmp_path):
-    monkeypatch.setenv("KLONGCART_CHURN_BUNDLE", str(tmp_path / "missing-churn.joblib"))
-    monkeypatch.setenv("KLONGCART_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
+    monkeypatch.setenv("FRESH_AND_GOOD_CHURN_BUNDLE", str(tmp_path / "missing-churn.joblib"))
+    monkeypatch.setenv("FRESH_AND_GOOD_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
     at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     text = _errors(at)
     assert "notebook 05" in text
@@ -63,8 +63,8 @@ def test_missing_bundle_tells_you_what_to_finish(monkeypatch, tmp_path):
 
 
 def test_zero_orders_with_spend_shows_the_input_error(monkeypatch, tmp_path):
-    monkeypatch.setenv("KLONGCART_CHURN_BUNDLE", str(_bundle(tmp_path)))
-    monkeypatch.setenv("KLONGCART_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
+    monkeypatch.setenv("FRESH_AND_GOOD_CHURN_BUNDLE", str(_bundle(tmp_path)))
+    monkeypatch.setenv("FRESH_AND_GOOD_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
     at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     at.number_input[1].set_value(0)
     at.number_input[2].set_value(50.0)
@@ -73,8 +73,8 @@ def test_zero_orders_with_spend_shows_the_input_error(monkeypatch, tmp_path):
 
 
 def test_starter_scores_a_probability_and_stops_on_the_exercise(monkeypatch, tmp_path):
-    monkeypatch.setenv("KLONGCART_CHURN_BUNDLE", str(_bundle(tmp_path)))
-    monkeypatch.setenv("KLONGCART_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
+    monkeypatch.setenv("FRESH_AND_GOOD_CHURN_BUNDLE", str(_bundle(tmp_path)))
+    monkeypatch.setenv("FRESH_AND_GOOD_SPEND_BUNDLE", str(tmp_path / "missing-spend.joblib"))
     at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     at.form_submit_button[0].click().run()
     assert at.metric
@@ -90,15 +90,15 @@ def test_form_shows_churn_and_spend_and_rejects_the_wrong_bundle(monkeypatch, tm
     train, _validation, _test = split_customers(frame)
     churn_path = _bundle(tmp_path)
     spend_path = _spend_bundle(tmp_path, train)
-    monkeypatch.setenv("KLONGCART_CHURN_BUNDLE", str(churn_path))
-    monkeypatch.setenv("KLONGCART_SPEND_BUNDLE", str(spend_path))
+    monkeypatch.setenv("FRESH_AND_GOOD_CHURN_BUNDLE", str(churn_path))
+    monkeypatch.setenv("FRESH_AND_GOOD_SPEND_BUNDLE", str(spend_path))
     at = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     at.form_submit_button[0].click().run()
     labels = [item.label for item in at.metric]
     assert "Churn probability" in labels
     assert "Estimated next-month spend" in labels
     assert any(item.value.endswith("THB") for item in at.metric)
-    monkeypatch.setenv("KLONGCART_SPEND_BUNDLE", str(churn_path))
+    monkeypatch.setenv("FRESH_AND_GOOD_SPEND_BUNDLE", str(churn_path))
     swapped = AppTest.from_file(module_root() / "app.py", default_timeout=30).run()
     assert any("not a spend bundle" in item.value for item in swapped.error)
 

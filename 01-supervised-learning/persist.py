@@ -63,7 +63,7 @@ def load_bundle(path, expected_task: str | None = None) -> DecisionBundle:
         )
     bundle = joblib.load(source)
     if not isinstance(bundle, DecisionBundle):
-        raise ValueError("That file is not a KlongCart decision bundle.")
+        raise ValueError("That file is not a Fresh and Good decision bundle.")
     if bundle.task not in (TASK_CHURN, TASK_SPEND):
         raise ValueError("The bundle task must be churn or spend.")
     if expected_task is not None and bundle.task != expected_task:

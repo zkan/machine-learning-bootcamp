@@ -2,7 +2,7 @@
 
 Each notebook reloads the CSV, so you can restart the kernel between files.
 
-The table is already at `data/klongcart_customers.csv`. Check it with `uv run python -m generate --check`.
+The table is already at `data/fresh_and_good_customers.csv`. Check it with `uv run python -m generate --check`.
 
 Notebook 05 saves `models/churn_bundle.joblib`. Notebook 06 saves `models/spend_bundle.joblib`. Do not commit saved models.
 
