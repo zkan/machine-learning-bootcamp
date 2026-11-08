@@ -8,18 +8,18 @@ The class is taught in Thai. These notes are in English.
 
 ## Syllabus
 
-### [Day 1: Supervised churn classification](01-supervised-churn/)
+### [Day 1: Supervised learning](01-supervised-learning/)
 
-Build a local churn check for KlongCart, a fictional Bangkok online grocery, from a business question through a Streamlit form.
+Build two local checks for KlongCart, a fictional Bangkok online grocery. Classification asks who will place no paid order next month. Regression asks how many baht they will spend next month.
 
 In this day, you will:
 
 - Set up Python 3.15.2 with mise and uv.
-- Read a synthetic customer table and keep the July outcome out of the features.
-- Fit logistic regression and a random forest, then compare them with a majority baseline.
-- Choose a voucher threshold on the validation rows and score the test rows once.
-- Type one customer into a form and read a probability and a yes or no.
+- Read one synthetic customer table and keep both July outcomes out of the features.
+- Fit a churn classifier, compare it with a majority baseline, and choose a voucher threshold on validation.
+- Fit a spend regressor on the same rows, compare it with a mean baseline, and read MAE and RMSE in THB.
+- Type one customer into a form and read a churn probability, a yes or no, and an estimated spend.
 
-Outcome: a classroom model and a form. The score is synthetic. It is not a production retention system.
+Outcome: a classroom form. The scores are synthetic. They are not a production retention system.
 
-Setup, the Bangkok timetable, the notebooks, the data, and the form are in that folder. Start with [01-supervised-churn/README.md](01-supervised-churn/README.md).
+Setup, the Bangkok timetable, the notebooks, the data, and the form are in that folder. Start with [01-supervised-learning/README.md](01-supervised-learning/README.md).

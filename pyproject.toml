@@ -1,7 +1,7 @@
 [project]
 name = "klongcart-day1"
 version = "0.1.0"
-description = "Day 1 local churn workshop for the Machine Learning Bootcamp."
+description = "Day 1 supervised learning workshop for the Machine Learning Bootcamp."
 requires-python = "==3.15.2"
 dependencies = [
     "numpy==2.5.4",
@@ -26,5 +26,5 @@ package = false
 default-groups = []
 
 [tool.pytest.ini_options]
-pythonpath = ["01-supervised-churn"]
-testpaths = ["01-supervised-churn/tests"]
+pythonpath = ["01-supervised-learning"]
+testpaths = ["01-supervised-learning/tests"]
