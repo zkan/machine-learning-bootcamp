@@ -20,3 +20,7 @@ Find two leaky columns, group the same customers, flag odd rows, and suggest pro
 ### [Reinforcement learning](03-reinforcement-learning/)
 
 Play a four-machine game in NumPy. If you finish early, there is a small grid. This is the 15:10–16:00 block on Day 2. Work in `03-reinforcement-learning/`.
+
+### [Day 3: Deep learning](04-deep-learning/)
+
+Train a small neural net on churn, then a small CNN on product images. Log one run in MLflow. The form has a churn tab and an image tab. Work in `04-deep-learning/`. Do not edit Day 1 or Day 2.
