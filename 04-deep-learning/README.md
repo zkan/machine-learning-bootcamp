@@ -5,7 +5,7 @@ Day 3 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictio
 - 3.1 [Neural net on churn](00_mlp_churn.ipynb)
 - 3.2 [Training behaviour](01_training.ipynb)
 - 3.3 [Images with OpenCV](02_opencv.ipynb)
-- 3.4 [A small CNN and the image cup](03_cnn.ipynb)
+- 3.4 [A small CNN](03_cnn.ipynb)
 - 3.5 [One MLflow run](04_mlflow.ipynb)
 - 3.6 [Churn tab and image tab](app.py)
 - 3.7 [Why this model](why_this_model.md)
@@ -97,7 +97,7 @@ Learning curve, train rows only, 3-fold ROC-AUC:
 
 `02_opencv.ipynb` draws a green square. The edge sum is 15300. The resized image has 256 bright pixels. If the webcam cell prints `No camera`, leave it.
 
-`03_cnn.ipynb`, learning rate 0.001. With Fashion-MNIST files present, the fit uses the full seeded split: 42,000 train rows, 14,000 validation rows, and 14,000 held-out rows, for 12 epochs. On the Linux check that validation accuracy was 0.890, the train accuracy was 0.907, the held-out accuracy was 0.887, and the fit took 19.79 seconds. The notebook prints the validation accuracy as 0.89. A second fit in `04_mlflow.ipynb` took 21.04 seconds, so the time moves a little. Without the Fashion-MNIST files, digits use every row for 40 epochs. On the Linux check that validation accuracy was 0.953, the train accuracy was 0.976, the held-out accuracy was 0.942, and the fit took 0.75 seconds. Your laptop will differ. The score is the number to match for the data you actually loaded. The notebook prints `source`.
+`03_cnn.ipynb`, learning rate 0.001. With Fashion-MNIST files present, the fit uses the full seeded split: 42,000 train rows, 14,000 validation rows, and 14,000 held-out rows, for 12 epochs. On the Linux check that validation accuracy was 0.890, the train accuracy was 0.907, the held-out accuracy was 0.887, and the fit took 19.79 seconds. A second fit in `04_mlflow.ipynb` took 21.04 seconds, so the time moves a little. Without the Fashion-MNIST files, digits use every row for 40 epochs. On the Linux check that validation accuracy was 0.953, the train accuracy was 0.976, the held-out accuracy was 0.942, and the fit took 0.75 seconds. Your laptop will differ. The score is the number to match for the data you actually loaded. The notebook prints `source`.
 
 ## Before class
 
@@ -105,7 +105,7 @@ Use the Day 1 install for mise 2026.11.3, uv 0.13.7, and Python 3.15.2. The Linu
 
 PyTorch 2.15.0 publishes a cp315 wheel for this Python. This project installs it from the CPU index, `https://download.pytorch.org/whl/cpu`, so a CUDA build is not selected. On Linux and Windows the wheel name ends in `+cpu`. On macOS Apple Silicon the CPU index serves `torch-2.15.0-cp315-cp315-macosx_14_0_arm64.whl` without that suffix. The Linux x86_64 CPU wheel downloaded here is 209,534,469 bytes.
 
-`opencv-python` 5.0.0.93 ships `cp37-abi3` wheels, so the same wheel runs on Python 3.15 on Linux, macOS, and Windows. The project uses that package, not `opencv-python-headless`. The OpenCV docs say the headless builds omit GUI calls such as `cv2.imshow` and are the ones to pick when you do not need a camera preview. This day keeps the desktop package because the webcam cell calls `VideoCapture`. The notebook still skips that cell when no camera opens, and it never calls `imshow`.
+`opencv-python` 5.0.0.93 ships `cp37-abi3` wheels, so the same wheel runs on Python 3.15 on Linux, macOS, and Windows. The project uses that package, not `opencv-python-headless`. Headless builds omit GUI calls such as `cv2.imshow`. This day keeps the desktop package because the webcam cell calls `VideoCapture`. The notebook skips that cell when no camera opens, and it never calls `imshow`.
 
 ## Create the environment
 
@@ -123,7 +123,7 @@ MLflow 3.18 keeps the filesystem tracking store only if you opt in. The notebook
 
 `uv.lock` installs PyYAML 6.0.3 from source because that release has no cp315 wheel. If the build fails, check that your laptop has a C compiler.
 
-Optional, when the room has a network:
+Optional, when you have a network:
 
 ```sh
 PYTHONPATH=lib uv run python -m images --download
@@ -179,7 +179,7 @@ Load only a file you fit in class. A joblib file, and a `torch.save` file, can r
 
 ## Fill in the memo
 
-`why_this_model.md` has three blanks: accuracy, explainability, and cost. At 15:30, read one sentence out loud. A wrong clothing label in this exercise is a stand-in for a wrong product label at the desk.
+`why_this_model.md` has three blanks: accuracy, explainability, and cost. At 15:30, write one sentence in the memo. A wrong clothing label in this exercise is a stand-in for a wrong product label at the desk.
 
 ## For the teaching team
 
@@ -190,9 +190,9 @@ make test
 python score_cup.py models/cup_predictions.csv path/to/cup_labels.csv
 ```
 
-`lib/cup.py` defines `instructor_labels`. Call it for the same source the room used (`fashion` or `digits`) and save that frame. Do not commit it.
+`lib/cup.py` defines `instructor_labels`. Call it for the same source you used (`fashion` or `digits`) and save that frame. Do not commit it.
 
-Before the room, on a machine that has a network, copy two things onto the stick you already use. There is no USB tool in this repo.
+If you need a local copy of the packages and images, fill it on a machine that has a network. This repo has no USB tool.
 
 Fashion-MNIST, from this folder:
 

@@ -1,6 +1,6 @@
 # Day 3 tables
 
-Fresh and Good is the fictional Bangkok online grocery from Day 1. The churn models still read the Day 1 customer file. The image models use Fashion-MNIST, or scikit-learn digits when those files are absent.
+Fresh and Good is the fictional Bangkok online grocery from Day 1. The churn models read the Day 1 customer file. The image models use Fashion-MNIST, or scikit-learn digits when those files are absent.
 
 ## Customers
 
