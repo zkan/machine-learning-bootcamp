@@ -32,3 +32,7 @@ Version the Fresh and Good churn check. The form loads a model by registry alias
 ### [Day 5: MLOps pipelines](06-mlops-pipelines/)
 
 Run the churn training tasks in order, with a gate before the alias moves. The form scores a customer and shows a drift check. Work in `06-mlops-pipelines/`.
+
+### [Day 6: Capstone](07-capstone/)
+
+Demo the week in 8 minutes. The form scores the pipeline model, shows drift, and can look a customer up in Feast. Work in `07-capstone/`.
