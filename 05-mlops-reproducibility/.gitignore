@@ -1,0 +1,13 @@
+.venv/
+mlruns/
+shared-dvc-remote/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+airflow/logs/*
+!airflow/logs/.gitkeep
+airflow/.env
+airflow/config/airflow.cfg
+feature_repo/data/*.db
+feature_repo/data/*.db-journal
+*.tmp

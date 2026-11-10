@@ -24,3 +24,7 @@ Play a four-machine game in NumPy. If you finish early, there is a small grid. T
 ### [Day 3: Deep learning](04-deep-learning/)
 
 Train a small neural net on churn, then a small CNN on product images. Log one run in MLflow. The form has a churn tab and an image tab. Work in `04-deep-learning/`. Do not edit Day 1 or Day 2.
+
+### [Day 4: MLOps reproducibility](05-mlops-reproducibility/)
+
+Version the Fresh and Good churn check. The form loads a model by registry alias and customer features by id. Work in `05-mlops-reproducibility/`. Do not edit Days 1 to 3.
