@@ -1,0 +1,11 @@
+[project]
+name = "fresh-and-good-airflow"
+version = "0.1.0"
+description = "Day 3 Airflow clinic. Separate from the Day 3 notebook environment."
+requires-python = "==3.12.16"
+dependencies = [
+    "apache-airflow==3.4.0",
+]
+
+[tool.uv]
+package = false
