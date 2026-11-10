@@ -12,7 +12,6 @@ from anomalies import (
     with_planted,
     z_strength,
 )
-from bandit import run_epsilon_greedy
 from baskets import (
     item_sets,
     item_similarity,
@@ -129,15 +128,3 @@ def test_planted_anomalies_are_deterministic_and_mostly_flagged():
     assert planted_recall(planted, z_top) == 1.0
     assert planted_recall(planted, top_flags(forest, 8, low_is_anomaly=True)) == 0.75
     assert planted_recall(planted, top_flags(z, 8, low_is_anomaly=False)) == 1.0
-
-
-def test_bandit_repeats_with_the_same_seed():
-    first, rewards = run_epsilon_greedy(0.1, 20, seed=42)
-    second, again = run_epsilon_greedy(0.1, 20, seed=42)
-    other, _ = run_epsilon_greedy(0.1, 20, seed=7)
-    assert np.array_equal(first, second)
-    assert np.array_equal(rewards, again)
-    assert len(first) == 20
-    assert round(float(rewards.mean()), 2) == 0.05
-    assert rewards.min() >= 0 and rewards.max() <= 1
-    assert not np.array_equal(first, other)
