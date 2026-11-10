@@ -13,6 +13,6 @@ Build two local checks for Fresh and Good, a fictional Bangkok online grocery.
 
 Work inside `01-supervised-learning/`. Notebooks sit at that folder's root. Shared Python helpers live in `lib/`. The Streamlit form is `app.py`. Day 1 dependencies are in that folder's `pyproject.toml`.
 
-### [Day 2: Segments and recommendations](02-segments-and-recommendations/)
+### [Day 2: Unsupervised learning](02-unsupervised-learning/)
 
-Find two leaky columns, group the same customers, and suggest products. The form has a Segments tab and a Recommendations tab. Work inside `02-segments-and-recommendations/`. Day 1 stays as it is.
+Find two leaky columns, group the same customers, flag odd rows, and suggest products. The form has a Segments tab and a Recommendations tab. Work inside `02-unsupervised-learning/`. Day 1 stays as it is.

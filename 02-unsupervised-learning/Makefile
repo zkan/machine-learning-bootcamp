@@ -10,7 +10,7 @@ UV := mise exec -- env PYTHONPATH=lib uv
 
 help:
 	@printf '%s\n' \
-		'Day 2: Segments and recommendations' \
+		'Day 2: Unsupervised learning' \
 		'' \
 		'  make setup    locked packages and the notebook kernel' \
 		'  make sync     uv sync --frozen' \

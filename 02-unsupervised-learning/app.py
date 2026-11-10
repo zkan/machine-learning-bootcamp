@@ -23,7 +23,7 @@ with segments_tab:
 
 with recs_tab:
     if not NEIGHBORS.is_file():
-        st.error(f"Missing {NEIGHBORS.name}. Run 02_recommend.ipynb and save the neighbor table.")
+        st.error(f"Missing {NEIGHBORS.name}. Run 03_recommend.ipynb and save the neighbor table.")
     else:
         table = pd.read_csv(NEIGHBORS)
         product = st.selectbox("Product in the basket", sorted(table["product"].unique()))

@@ -3,6 +3,15 @@ from io import StringIO
 import numpy as np
 import pandas as pd
 
+from anomalies import (
+    N_PLANTED,
+    TOP_N,
+    forest_decision,
+    planted_recall,
+    top_flags,
+    with_planted,
+    z_strength,
+)
 from bandit import run_epsilon_greedy
 from baskets import (
     item_sets,
@@ -99,6 +108,27 @@ def test_precision_at_k_is_in_range_and_repeatable():
     assert round(popular, 3) == 0.135
     assert round(similar, 3) == 0.323
     assert len(recommend_similar(sim, {"rice"}, 3)) == 3
+
+
+def test_planted_anomalies_are_deterministic_and_mostly_flagged():
+    table = built_table()
+    planted = with_planted(table)
+    again = with_planted(table)
+    assert planted.equals(again)
+    assert int(planted["planted_anomaly"].sum()) == N_PLANTED
+    assert len(planted) == len(table) + N_PLANTED
+    other = with_planted(table, seed=7)
+    assert not planted["spend_thb_90d"].equals(other["spend_thb_90d"])
+    forest = forest_decision(planted)
+    z = z_strength(planted)
+    forest_again = forest_decision(planted)
+    assert np.allclose(forest, forest_again)
+    forest_top = top_flags(forest, TOP_N, low_is_anomaly=True)
+    z_top = top_flags(z, TOP_N, low_is_anomaly=False)
+    assert planted_recall(planted, forest_top) == 1.0
+    assert planted_recall(planted, z_top) == 1.0
+    assert planted_recall(planted, top_flags(forest, 8, low_is_anomaly=True)) == 0.75
+    assert planted_recall(planted, top_flags(z, 8, low_is_anomaly=False)) == 1.0
 
 
 def test_bandit_repeats_with_the_same_seed():
