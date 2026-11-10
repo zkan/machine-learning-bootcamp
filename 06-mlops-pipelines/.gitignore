@@ -1,0 +1,15 @@
+.venv/
+mlruns/
+data/*.parquet
+data/*.json
+data/*.csv
+data/*.tmp
+airflow/dags/vendor/
+airflow/logs/*
+!airflow/logs/.gitkeep
+airflow/.env
+airflow/config/airflow.cfg
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.tmp
