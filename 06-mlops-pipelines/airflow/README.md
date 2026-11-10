@@ -1,6 +1,6 @@
 # Airflow for the training dag
 
-If Day 4's Airflow clinic was cut, spend the first 15 minutes on that clinic before this dag. The steps and the memory floor are in `05-mlops-reproducibility/airflow/README.md`. This folder has its own copy of the same official Airflow 3.4.0 `docker-compose.yaml`, unmodified, from:
+If you skipped Day 4's Airflow clinic, spend the first 15 minutes on that clinic before this dag. The steps and the memory floor are in `05-mlops-reproducibility/airflow/README.md`. This folder has its own copy of the same official Airflow 3.4.0 `docker-compose.yaml`, unmodified, from:
 
 https://airflow.apache.org/docs/apache-airflow/3.4.0/docker-compose.yaml
 
@@ -14,7 +14,7 @@ From `06-mlops-pipelines`:
 make run
 ```
 
-That calls ingest, validate, features, train, evaluate, and register, in that order, with three attempts per task.
+That calls ingest, validate, features, train, evaluate, and register, in that order, with two retries per task (`retries=2`).
 
 ## UI path
 
@@ -26,7 +26,7 @@ The tasks read the Day 1 CSV. From this folder, copy it into the mounted dags fo
 make vendor
 ```
 
-Packages are the official quick-check variable, which installs on every container start. Add this line to `.env` only when you accept that cost:
+Packages use the official quick-check variable, which installs on every container start. Add this line to `.env` only if you accept that install cost:
 
 ```text
 _PIP_ADDITIONAL_REQUIREMENTS=pandas==2.3.3 scikit-learn==1.9.1 mlflow==3.18.0 pyarrow==22.0.0

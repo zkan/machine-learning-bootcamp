@@ -2,7 +2,7 @@
 
 Day 5 of the Machine Learning Bootcamp. You run the Fresh and Good training tasks in order, keep a weak model off the alias, and read a drift check before you decide to retrain or roll back.
 
-If Day 4's Airflow clinic was cut, start with 15 minutes of [Airflow up](../05-mlops-reproducibility/airflow/README.md). Then come back here.
+If you skipped Day 4's Airflow clinic, spend 15 minutes on [Airflow up](../05-mlops-reproducibility/airflow/README.md). Then come back here.
 
 - 5.1 [Run the pipeline](00_pipeline.ipynb)
 - 5.2 [Break the pipeline](01_bug_bounty.ipynb)
@@ -43,7 +43,7 @@ Expect a version line that starts with `3.14.10`.
 make run
 ```
 
-The runner calls ingest, validate, features, train, evaluate, and register. Each task gets three attempts. Files are replaced in place, so a retry does not append a second copy. A second `make run` keeps the alias on the same MLflow run when the feature table has not changed.
+The runner calls ingest, validate, features, train, evaluate, and register. Each task retries twice (`retries=2`). Files are replaced in place, so a retry does not append a second copy. A second `make run` keeps the alias on the same MLflow run when the feature table has not changed.
 
 Evaluate writes `data/metrics.json`. With the shipped code the held-out ROC-AUC is `0.793613`. The gate is `0.70`. The alias moves only when the score is at least the gate.
 
