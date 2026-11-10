@@ -1,10 +1,7 @@
-import json
-from pathlib import Path
-
-import pytest
 from streamlit.testing.v1 import AppTest
 
 from customers import compare_models, load_customers, save_bundle, split_frame
+from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1] / "app.py"
 
@@ -13,44 +10,39 @@ def _text(at: AppTest) -> str:
     parts = []
     for group in (at.markdown, at.caption, at.error, at.metric, at.info):
         for item in group:
-            parts.append(str(item.value))
+            parts.append(str(getattr(item, "value", item)))
     return "\n".join(parts)
 
 
-@pytest.fixture(scope="module")
-def model_dir(tmp_path_factory):
-    folder = tmp_path_factory.mktemp("models")
-    train, validation, _test = split_frame(load_customers())
-    result = compare_models(train, validation, (32,))
-    save_bundle(folder / "classic.joblib", result["classic"], "classic", "RandomForestClassifier")
-    save_bundle(folder / "mlp.joblib", result["mlp"], "mlp", "MLPClassifier")
-    (folder / "chosen.json").write_text(
-        json.dumps({"model": "mlp", "version": "1", "registered_name": "fresh-and-good-churn"})
-    )
-    return folder
-
-
-def test_missing_files_name_the_notebook(monkeypatch, tmp_path):
+def test_missing_files_name_the_notebooks(monkeypatch, tmp_path):
     monkeypatch.setenv("DAY3_CLASSIC", str(tmp_path / "classic.joblib"))
     monkeypatch.setenv("DAY3_MLP", str(tmp_path / "mlp.joblib"))
-    monkeypatch.setenv("DAY3_CHOSEN", str(tmp_path / "chosen.json"))
-    at = AppTest.from_file(str(APP), default_timeout=30).run()
+    monkeypatch.setenv("DAY3_CNN", str(tmp_path / "cnn.pt"))
+    at = AppTest.from_file(str(APP), default_timeout=60).run()
     text = _text(at)
     assert "classic.joblib" in text
-    assert "03_swap.ipynb" in text
+    assert "00_mlp_churn.ipynb" in text
+    assert "cnn.pt" in text
+    assert "03_cnn.ipynb" in text
 
 
-def test_switch_shows_the_model_and_scores(monkeypatch, model_dir):
-    monkeypatch.setenv("DAY3_CLASSIC", str(model_dir / "classic.joblib"))
-    monkeypatch.setenv("DAY3_MLP", str(model_dir / "mlp.joblib"))
-    monkeypatch.setenv("DAY3_CHOSEN", str(model_dir / "chosen.json"))
-    at = AppTest.from_file(str(APP), default_timeout=30).run()
-    assert "RandomForestClassifier, not registered" in _text(at)
+def test_churn_switch_scores_both_models(monkeypatch, tmp_path):
+    frame = load_customers()
+    train, validation, _test = split_frame(frame)
+    result = compare_models(train, validation, (32,))
+    classic = tmp_path / "classic.joblib"
+    mlp = tmp_path / "mlp.joblib"
+    save_bundle(classic, result["classic"], "classic", "RandomForestClassifier")
+    save_bundle(mlp, result["mlp"], "mlp", "MLPClassifier")
+    monkeypatch.setenv("DAY3_CLASSIC", str(classic))
+    monkeypatch.setenv("DAY3_MLP", str(mlp))
+    monkeypatch.setenv("DAY3_CNN", str(tmp_path / "missing.pt"))
+    at = AppTest.from_file(str(APP), default_timeout=60).run()
+    assert "RandomForestClassifier" in _text(at)
     at.form_submit_button[0].click().run()
-    classic = at.metric[0].value
-    assert classic.endswith("%")
+    classic_score = at.metric[0].value
     at.radio[0].set_value("mlp").run()
-    assert "MLPClassifier, MLflow version 1" in _text(at)
+    assert "MLPClassifier" in _text(at)
     at.form_submit_button[0].click().run()
     assert at.metric[0].value.endswith("%")
-    assert at.metric[0].value != classic
+    assert at.metric[0].value != classic_score

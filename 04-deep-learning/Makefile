@@ -15,7 +15,7 @@ help:
 		'  make setup    locked packages and the notebook kernel' \
 		'  make sync     uv sync --frozen' \
 		'  make kernel   register the fresh-and-good-day3 kernel' \
-		'  make check    confirm the ticket table' \
+		'  make check    confirm Fashion-MNIST or the digits fallback' \
 		'  make notebook start Jupyter' \
 		'  make app      start the day 3 form' \
 		'  make test     teaching-team checks'
@@ -29,7 +29,7 @@ kernel:
 	cd $(HERE) && $(UV) run python -m ipykernel install --user --name fresh-and-good-day3 --display-name "Python (fresh-and-good-day3)"
 
 check:
-	cd $(HERE) && $(UV) run python -m tickets --check
+	cd $(HERE) && $(UV) run python -m images --check
 
 notebook:
 	cd $(HERE) && $(UV) run python -m jupyter notebook

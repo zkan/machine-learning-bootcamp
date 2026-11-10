@@ -7,8 +7,9 @@ ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOKS = (
     "00_mlp_churn.ipynb",
     "01_training.ipynb",
-    "02_tickets.ipynb",
-    "03_swap.ipynb",
+    "02_opencv.ipynb",
+    "03_cnn.ipynb",
+    "04_mlflow.ipynb",
 )
 
 
@@ -31,12 +32,12 @@ def test_notebooks_keep_the_exercises():
     for name in NOTEBOOKS:
         assert "Exercise" in _plain(name)
     assert 'debrief = ""' in _plain("00_mlp_churn.ipynb")
-    assert 'debrief = ""' in _plain("01_training.ipynb")
     assert "gap = None" in _plain("01_training.ipynb")
-    assert 'debrief = ""' in _plain("02_tickets.ipynb")
-    assert "Add one more dict" in _plain("02_tickets.ipynb")
+    assert 'debrief = ""' in _plain("03_cnn.ipynb")
+    assert "learning_rate = 0.001" in _plain("03_cnn.ipynb")
     memo = (ROOT / "why_this_model.md").read_text()
     assert "we ship this model because" in memo
+    assert "0.698" not in memo
     assert "0.782" not in memo
 
 

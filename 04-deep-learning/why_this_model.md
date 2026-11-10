@@ -8,15 +8,15 @@ Chosen model:
 
 ## Accuracy
 
-Validation score of the forest and of the MLP:
+Validation accuracy of the small CNN:
 
 ## Explainability
 
-Who can explain one customer's score, and how?
+What did the filters react to, in one sentence?
 
 ## Cost
 
-Training time on your laptop, and what a wrong voucher costs (use the Day 1 cost card):
+Training time on your laptop, and what a wrong product label costs the desk:
 
 ## Decision
 
