@@ -1,0 +1,33 @@
+[project]
+name = "fresh-and-good-day6"
+version = "0.1.0"
+description = "Day 6 capstone for the Machine Learning Bootcamp."
+requires-python = "==3.14.10"
+dependencies = [
+    "numpy==2.5.4",
+    "pandas==2.3.3",
+    "pyarrow==22.0.0",
+    "scikit-learn==1.9.1",
+    "mlflow==3.18.0",
+    "feast==0.67.0",
+    "streamlit==1.67.0",
+    "jupyter==1.1.1",
+    "ipykernel==7.4.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "nbclient==0.11.0",
+    "nbformat==5.10.4",
+]
+
+[tool.uv]
+package = false
+default-groups = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning:mlflow.*",
+]
