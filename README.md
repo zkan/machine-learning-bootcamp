@@ -28,3 +28,7 @@ Train a small neural net on churn, then a small CNN on product images. Log one r
 ### [Day 4: MLOps reproducibility](05-mlops-reproducibility/)
 
 Version the Fresh and Good churn check. The form loads a model by registry alias and customer features by id. Work in `05-mlops-reproducibility/`. Do not edit Days 1 to 3.
+
+### [Day 5: MLOps pipelines](06-mlops-pipelines/)
+
+Run the churn training tasks in order, with a gate before the alias moves. The form scores a customer and shows a drift check. Work in `06-mlops-pipelines/`.
