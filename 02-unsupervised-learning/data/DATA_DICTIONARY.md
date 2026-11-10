@@ -2,7 +2,7 @@
 
 This file is synthetic. It starts from the Day 1 table, `01-supervised-learning/data/fresh_and_good_customers.csv`, and adds two columns. The Day 1 file is not edited. `lib/leaks.py` builds this copy.
 
-Day 1's dictionary still describes the June features and the July labels. Read it first. This page only adds the Day 2 columns.
+The [Day 1 data dictionary](../../01-supervised-learning/data/DATA_DICTIONARY.md) describes the June features and the July labels. Read it first. This page adds only the Day 2 columns.
 
 The public file includes `churned` and `next_month_spend_thb`. There is no hidden label file. Compare models on a validation split of this same file.
 

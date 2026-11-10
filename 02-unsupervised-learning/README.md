@@ -1,6 +1,6 @@
 # Day 2: Unsupervised learning
 
-Day 2 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictional Bangkok online grocery from Day 1. Morning work finds two leaky columns, groups customers, and flags odd rows. Afternoon work suggests products and opens a second form. At 15:10, switch to [03-reinforcement-learning](../03-reinforcement-learning/).
+Day 2 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictional Bangkok online grocery from Day 1. In the morning, find two leaky columns, group customers, and flag odd rows. In the afternoon, suggest products and open a second form. At 15:10, switch to [03-reinforcement-learning](../03-reinforcement-learning/).
 
 - 2.1 [Leaks, then two features](00_leaks.ipynb)
 - 2.2 [Customer segments](01_clusters.ipynb)
@@ -9,7 +9,7 @@ Day 2 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictio
 - 2.5 [Segments and recommendations form](app.py)
 - [Column notes](data/DATA_DICTIONARY.md)
 
-Run the commands on this page from `02-unsupervised-learning` (this folder). Tool pins live in the repo `mise.toml`. This folder has its own `pyproject.toml`. Day 1 is a different folder. Do not edit it.
+Run the commands on this page from `02-unsupervised-learning` (this folder). Tool versions are pinned in the repo `mise.toml`. This folder has its own `pyproject.toml`. Do not edit Day 1.
 
 ## Timetable
 
@@ -42,19 +42,19 @@ By the end of this workshop, you can:
 
 ## The data
 
-`data/fresh_and_good_day2.csv` is the Day 1 customer file plus two planted July columns. `lib/leaks.py` reads `01-supervised-learning/data/fresh_and_good_customers.csv` and writes this copy. It does not change the Day 1 file.
+`data/fresh_and_good_day2.csv` is the Day 1 customer file plus two planted July columns. `lib/leaks.py` builds this copy from `01-supervised-learning/data/fresh_and_good_customers.csv` and does not change the Day 1 file.
 
-The July labels are in the public file. There is no hidden test and no hidden basket file. Validation scores and precision@k are scores on held-out rows of these public tables.
+The July labels are in the public file. There is no hidden test and no hidden basket file. Validation scores and precision@k use held-out rows from these public tables.
 
-Baskets are drawn in `lib/baskets.py` (800 baskets, seed 7). They are not real orders.
+`lib/baskets.py` draws 800 synthetic baskets with seed 7. They are not real orders.
 
-`02_anomalies.ipynb` appends 8 odd rows with seed 42. Those rows are not in the CSV. The model uses recency, orders, and spend only. The July columns stay out.
+`02_anomalies.ipynb` appends 8 odd rows with seed 42. Those rows are not in the CSV. Use recency, orders, and spend only. Leave the July columns out.
 
 ## Expected outputs
 
 - A validation ROC-AUC with the July columns, without them, and with the two June features.
 - A segment table: the k you chose, a churn rate, a persona, and one action.
-- Recall of the 8 planted rows among the top 16 flags, once for the z-score rule and once for the isolation forest.
+- Recall of the 8 planted rows among the top 16 flags is 1.0 for the z-score rule and 1.0 for the isolation forest. Among the top 8 flags, z-score recall is 1.0 and isolation forest recall is 0.75.
 - Precision@3 for popularity and for cosine similarity on the held-out baskets.
 
 ## Before class
@@ -71,7 +71,7 @@ uv sync --frozen
 PYTHONPATH=lib uv run python -m ipykernel install --user --name fresh-and-good-day2 --display-name "Python (fresh-and-good-day2)"
 ```
 
-The repo `mise.toml` sets `PYTHONPATH` to `01-supervised-learning/lib`. Leave that line alone. Day 1 imports stay on Day 1. This Makefile sets `PYTHONPATH=lib` only for Day 2 commands. The notebooks also insert this folder's `lib` at the front of `sys.path`. Day 2 modules are `leaks`, `rfm`, `segments`, `anomalies`, and `baskets`. Those names are not Day 1 modules.
+The repo `mise.toml` sets `PYTHONPATH` to `01-supervised-learning/lib`. Leave that line alone so Day 1 imports still work. For Day 2 commands, set `PYTHONPATH=lib` as the Makefile does. The notebooks put this folder's `lib` first on `sys.path`. Day 2 modules are `leaks`, `rfm`, `segments`, `anomalies`, and `baskets`. Those names are not Day 1 modules.
 
 `uv.lock` installs PyYAML 6.0.3 from source because that release has no cp315 wheel. If the build fails, check that your laptop has a C compiler.
 
@@ -81,23 +81,23 @@ Check the table:
 PYTHONPATH=lib uv run python -m leaks --check
 ```
 
-`make setup`, `make check`, `make notebook`, `make app`, and `make test` are the same steps. `make` uses `env PYTHONPATH=lib` so Day 2's modules win for that command.
+`make setup`, `make check`, `make notebook`, `make app`, and `make test` run the same steps, with `env PYTHONPATH=lib` so Day 2 modules are used.
 
 ## Open the form
 
-The notebooks write `models/segments.csv` and `models/neighbors.csv`. That folder is gitignored. Then:
+After the notebooks write `models/segments.csv` and `models/neighbors.csv` (that folder is gitignored):
 
 ```sh
 uv run python -m streamlit run app.py
 ```
 
-The form does not import the Day 2 helpers, so this command can leave `PYTHONPATH` on Day 1.
+This command does not need `PYTHONPATH=lib`. The form does not import the Day 2 helpers.
 
-The form has a Segments tab and a Recommendations tab. If a table is missing, the tab says which notebook to run. It does not show the odd-row flags. That check stays in `02_anomalies.ipynb`.
+The form has a Segments tab and a Recommendations tab. If a table is missing, the tab names the notebook to run. Odd-row flags stay in `02_anomalies.ipynb`.
 
 ## If you finish early
 
-Business: sketch a campaign cost and one retained-customer value for each segment. Engineer: use the segment id when you pick the product list. Neither is required. There is no gridworld notebook.
+Business: sketch a campaign cost and one retained-customer value for each segment. Engineer: use the segment id when you pick the product list. Neither is required. There is no gridworld notebook in this folder.
 
 ## Checks for the teaching team
 

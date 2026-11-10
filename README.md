@@ -15,8 +15,8 @@ Work inside `01-supervised-learning/`. Notebooks sit at that folder's root. Shar
 
 ### [Day 2: Unsupervised learning](02-unsupervised-learning/)
 
-Find two leaky columns, group the same customers, flag odd rows, and suggest products. The form has a Segments tab and a Recommendations tab. Work inside `02-unsupervised-learning/`. Day 1 stays as it is.
+Find two leaky columns, group the same customers, flag odd rows, and suggest products. The form has a Segments tab and a Recommendations tab. Work in `02-unsupervised-learning/`. Do not edit Day 1.
 
 ### [Reinforcement learning](03-reinforcement-learning/)
 
-A four-machine game in NumPy, plus a small grid if that finishes early. It is the 15:10–16:00 block on Day 2. Work inside `03-reinforcement-learning/`.
+Play a four-machine game in NumPy. If you finish early, there is a small grid. This is the 15:10–16:00 block on Day 2. Work in `03-reinforcement-learning/`.
