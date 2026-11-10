@@ -1,0 +1,5 @@
+tracking/
+mlruns/
+data/fashion/
+*.sqlite
+*.db
