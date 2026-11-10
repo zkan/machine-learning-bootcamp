@@ -38,10 +38,9 @@ Three stops. The person who approves the scope is the TA or the instructor. TA a
 
 Suggested split for the 8 minutes:
 
-1. One minute for the problem and the cost of a wrong score. Use [the presenter guide](business/presenter_guide.md).
-2. Three minutes for the form. Score `FG0010`, then show the monitor page.
+1. Two minutes for the business story. Problem, cost, payoff, and one risk. Use [the presenter guide](business/presenter_guide.md).
+2. Four minutes for the form. Score `FG0010`, then show the monitor page.
 3. Two minutes for how you would rerun it. Name code, data, params, and the environment.
-4. Two minutes for one risk and what you would do.
 
 Peer votes. Each person has 3 votes. You cannot vote for your own team. Write the team name once per vote. The instructor tallies them in the room. The tally is a classroom signal, not a grade. The rubric cards are the grade.
 

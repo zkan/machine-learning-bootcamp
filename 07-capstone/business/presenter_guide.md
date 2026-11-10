@@ -1,6 +1,6 @@
 # Presenter guide
 
-You have about two of the eight demo minutes for the business story. Use these four headings. One or two sentences each.
+You have two of the eight demo minutes for the business story. Use these four headings. One or two sentences each.
 
 ## Problem
 
