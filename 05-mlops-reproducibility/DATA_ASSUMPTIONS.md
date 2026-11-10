@@ -4,9 +4,9 @@ Fresh and Good is a fictional Bangkok online grocery. The only customer table is
 
 The Day 1 file has no customer id. This day assigns `FG0000` through `FG2399` from the file's row order. The id stays stable only while that CSV is unchanged.
 
-There is no event log. Every feature row uses one timestamp, 30 June 2026. A point-in-time join on this table can show that date. It cannot show a real history of feature changes.
+There is no event log. Every feature row uses one timestamp, 30 June 2026. A point-in-time request on or after that date can see the row. The result shows the request time, not a second snapshot. It cannot show a real history of feature changes.
 
-The training frame adds one derived column that reads a July label. The Feast table and the serving frame do not. Which column that is, is the skew hunt in `03_skew_hunt.ipynb`.
+The training frame adds one derived column that reads a July label. The Feast table and the serving frame do not. Naming that column is the skew hunt in `03_skew_hunt.ipynb`.
 
 The pipeline fit uses one 80/20 train and test split. That split is for this demo. It does not replace Day 1's train, validation, and test split.
 
