@@ -1,6 +1,6 @@
 # Day 3: Deep learning
 
-Day 3 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictional Bangkok online grocery from Day 1. In the morning, fit a small neural net on churn and compare it with the random forest. After lunch, classify support-ticket text, log every run in MLflow, and put the chosen model on a form. At 15:30, set up Airflow in its own folder.
+Day 3 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictional Bangkok online grocery from Day 1. In the morning, fit a small neural net on churn and compare it with the random forest. After lunch, classify support-ticket text, log every run in MLflow, and put the chosen model on a form. At 15:30, share the memo and recap the day.
 
 - 3.1 [Neural net on churn](00_mlp_churn.ipynb)
 - 3.2 [Training behaviour](01_training.ipynb)
@@ -9,9 +9,8 @@ Day 3 of the Machine Learning Bootcamp. You stay with Fresh and Good, the fictio
 - 3.5 [Model switch](app.py)
 - 3.6 [Why this model](why_this_model.md)
 - [Column notes](data/DATA_DICTIONARY.md)
-- Airflow clinic in [airflow/](airflow/)
 
-Run the commands on this page from `04-deep-learning` (this folder), unless a step says `airflow/`. Tool versions are pinned in the repo `mise.toml`. This folder has its own `pyproject.toml`. Do not edit Day 1 or Day 2.
+Run the commands on this page from `04-deep-learning` (this folder). Tool versions are pinned in the repo `mise.toml`. This folder has its own `pyproject.toml`. Do not edit Day 1 or Day 2.
 
 ## Timetable
 
@@ -23,11 +22,11 @@ Bangkok time. Breaks are 10:30–10:45 and 14:30–14:45. Lunch is 12:00–13:00
 | 10:45–12:00 | Learning rate, scaling, early stopping, learning curve. Train score versus validation score. |
 | 13:00–14:30 | TF-IDF plus MLP on tickets. Network Tuning Cup. Every run is logged. |
 | 14:45–15:30 | Model switch on the form. Register one model. Fill in the memo. |
-| 15:30–16:00 | Airflow environment. Separate folder. Smoke test, then the plain-Python runner. |
+| 15:30–16:00 | Share the memo. Recap the day. |
 
 ## What you build
 
-A validation ROC-AUC for the forest and for one MLP, a short note on the train-versus-validation gap, four logged ticket runs and a winner, a form that switches models and shows the MLflow version, and a memo. The Airflow clinic is a separate environment, not a fifth model.
+A validation ROC-AUC for the forest and for one MLP, a short note on the train-versus-validation gap, four logged ticket runs and a winner, a form that switches models and shows the MLflow version, and a memo.
 
 ## Objectives
 
@@ -39,7 +38,7 @@ By the end of this workshop, you can:
 - Read a train score and a validation score and say which gap is wider.
 - Log several text models to a local MLflow folder and pick the best validation accuracy.
 - Switch the form between the forest and the MLP and name the registered version.
-- Start Airflow in its own environment, run the clinic Dag, and run the same three tasks without Airflow.
+- Say, in one sentence, which model you would ship and what you gave up.
 
 ## In the room
 
@@ -100,7 +99,7 @@ Network Tuning Cup, 40 iterations, validation accuracy. A majority guess on four
 | `(32, 16)` | 0.001 | 0.700 |
 | `(32,)` | 0.01 | 0.758 |
 
-The winner is `(32,)` at learning rate 0.01. On the Linux check of these notebooks the forest took 0.12 seconds and the MLP took 0.27 seconds. The four ticket fits took 0.032, 0.034, 0.036, and 0.031 seconds, in the order of the table. Your laptop will differ. The score is the number to match.
+The winner is `(32,)` at learning rate 0.01. On the latest Linux check of these notebooks the forest took 0.13 seconds and the MLP took 0.33 seconds. The four ticket fits took 0.033, 0.037, 0.038, and 0.031 seconds, in the order of the table. Your laptop will differ. The score is the number to match.
 
 The stretch cell writes this confusion matrix for that winning run. Rows are the true category. Columns are the prediction. Each category has 30 validation rows.
 
@@ -113,7 +112,7 @@ The stretch cell writes this confusion matrix for that winning run. Rows are the
 
 ## Before class
 
-Use the Day 1 install for mise 2026.11.3, uv 0.13.7, and Python 3.15.2. The Linux setup was tested for this day. The macOS and Windows commands for the notebook environment were not retested. Airflow does not use this Python. See [Airflow clinic](#airflow-clinic).
+Use the Day 1 install for mise 2026.11.3, uv 0.13.7, and Python 3.15.2. The Linux setup was tested for this day. The macOS and Windows commands for the notebook environment were not retested.
 
 ## Create the environment
 
@@ -182,37 +181,9 @@ Load only a file you fit in class. A joblib file can run code when it is loaded.
 
 `why_this_model.md` has three blanks: accuracy, explainability, and cost. The forest can be talked through tree by tree. The MLP is a stack of weights. On this table both fits take well under a second, so the cost conversation is the voucher, not the GPU. Write one sentence on which model you would ship.
 
-## Airflow clinic
+## Wrap-up
 
-Airflow 3.4.0 is tested on Python 3.11, 3.12, 3.13, and 3.14. It is not tested on Python 3.15. The constraints file for 3.15 is not published (the 3.15 URL returns 404). This clinic uses Python 3.12.16, which is on the tested list, and the official [constraints-3.12.txt](https://raw.githubusercontent.com/apache/airflow/constraints-3.4.0/constraints-3.12.txt) vendored in `airflow/constraints-3.12.txt`. The lockfile was built with that constraints file:
-
-```sh
-UV_CONSTRAINT=constraints-3.12.txt uv lock --python 3.12.16
-```
-
-`UV_PYTHON` has to be unset for that command. The repo `mise.toml` points `UV_PYTHON` at Python 3.15.2, and Airflow will not install there.
-
-Sources: [Prerequisites](https://airflow.apache.org/docs/apache-airflow/stable/installation/prerequisites.html) (Python versions, and Windows via WSL2) and [Quick Start](https://airflow.apache.org/docs/apache-airflow/stable/start.html) (`airflow standalone`, UI on `http://localhost:8080`). The Quick Start says: on Windows, set up WSL2 first (`wsl --install` in an administrator PowerShell), then run the commands in the Ubuntu terminal WSL2 installs. This repository was checked on Linux only. macOS and WSL2 were not run.
-
-From `airflow/`:
-
-```sh
-make setup
-make dag
-make runner
-```
-
-`make dag` runs `airflow db migrate`, then:
-
-```sh
-airflow dags test fresh_and_good_clinic 2026-07-01
-```
-
-Expect a line `open tickets 12`. After that line, Airflow 3.4.0 can print a SQLAlchemy message while it closes the SQLite connection. The clinic succeeded if `open tickets 12` was printed. `make runner` runs the same three functions with no Airflow. It prints the same line. Each task allows two tries. The Dag sets `retries=1`, which is two tries.
-
-`make standalone` runs `airflow standalone` through `uv run`, which puts the virtualenv on `PATH`. The standalone command starts the scheduler and the API server by running the command `airflow`, so that name has to be on `PATH`. Activating `.venv` and then running `airflow standalone` is the same thing. The UI is `http://localhost:8080`. The first run prints a password for the user `admin`. Example Dags are turned off (`AIRFLOW__CORE__LOAD_EXAMPLES=false`). The clinic Dag is `fresh_and_good_clinic`. `AIRFLOW_HOME` is `airflow/home`, which is gitignored. Stop the process with Ctrl+C.
-
-The tasks count a fixed clinic number. They do not train a model. The Day 5 pipeline is not this clinic.
+At 15:30, each pair reads the memo. Say which model you would ship, and one trade-off you accepted. Then recap the day: the MLP and the forest on the validation rows, the train-versus-validation gap, and the ticket run you kept in MLflow.
 
 ## For the teaching team
 
@@ -222,16 +193,6 @@ Completed notebooks and a filled memo stay with the teaching team. They are not 
 make test
 ```
 
-From `airflow/`, `make dag` and `make runner` are the clinic checks.
-
-Before the room, on a machine that has a network, fill the uv cache. There is no USB tool in this repo. From this folder, `uv sync --frozen`. From `airflow/`, with `UV_PYTHON` unset, `uv sync --frozen --python 3.12.16`. To download wheels beside the constraints file:
-
-```sh
-pip download "apache-airflow==3.4.0" --constraint constraints-3.12.txt -d wheels
-```
-
-Copy the uv cache, or that `wheels` folder, onto the stick you already use. Do not commit `wheels/`.
-
 ## Library versions
 
 | Package | Version | Where |
@@ -239,7 +200,6 @@ Copy the uv cache, or that `wheels` folder, onto the stick you already use. Do n
 | mise | 2026.11.3 | repo `mise.toml` |
 | uv | 0.13.7 | repo `mise.toml` |
 | Python | 3.15.2 | this folder |
-| Python | 3.12.16 | `airflow/` only |
 | numpy | 2.5.4 | notebooks |
 | pandas | 3.1.1 | notebooks |
 | scikit-learn | 1.9.1 | [MLPClassifier](https://scikit-learn.org/1.9/modules/generated/sklearn.neural_network.MLPClassifier.html), [TfidfVectorizer](https://scikit-learn.org/1.9/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html), [learning_curve](https://scikit-learn.org/1.9/modules/generated/sklearn.model_selection.learning_curve.html) |
@@ -248,6 +208,5 @@ Copy the uv cache, or that `wheels` folder, onto the stick you already use. Do n
 | streamlit | 1.67.0 | form |
 | jupyter | 1.1.1 | notebook server |
 | ipykernel | 7.4.0 | kernel `fresh-and-good-day3` |
-| apache-airflow | 3.4.0 | `airflow/` on Python 3.12.16 |
 
 The automated checks also used pytest 9.2.0, nbclient 0.11.0, and nbformat 5.10.4. MLflow pulls matplotlib 3.11.2 and pyarrow 26.0.1. The notebooks do not call them.

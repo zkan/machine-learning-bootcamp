@@ -23,4 +23,4 @@ Play a four-machine game in NumPy. If you finish early, there is a small grid. T
 
 ### [Day 3: Deep learning](04-deep-learning/)
 
-Train a small neural net on churn and on support-ticket text. Log the runs in MLflow. The form can switch between the random forest and the neural net. Airflow lives in its own folder. Work in `04-deep-learning/`. Do not edit Day 1 or Day 2.
+Train a small neural net on churn and on support-ticket text. Log the runs in MLflow. The form can switch between the random forest and the neural net. Work in `04-deep-learning/`. Do not edit Day 1 or Day 2.

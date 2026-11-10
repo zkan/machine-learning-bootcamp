@@ -1,6 +1,4 @@
 tracking/
 mlruns/
-airflow/home/
-airflow/.venv/
 *.sqlite
 *.db
