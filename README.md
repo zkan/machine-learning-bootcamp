@@ -19,4 +19,4 @@ Find two leaky columns, group the same customers, flag odd rows, and suggest pro
 
 ### [Reinforcement learning](03-reinforcement-learning/)
 
-A four-machine game in NumPy. It is the 15:10–16:00 block on Day 2. Work inside `03-reinforcement-learning/`.
+A four-machine game in NumPy, plus a small grid if that finishes early. It is the 15:10–16:00 block on Day 2. Work inside `03-reinforcement-learning/`.

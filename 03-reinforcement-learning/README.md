@@ -3,6 +3,7 @@
 This is the 15:10–16:00 block on Day 2. It is not part of `02-unsupervised-learning`. You play four snack machines with an epsilon-greedy rule.
 
 - 3.1 [Four snack machines](00_bandit.ipynb)
+- 3.2 [A small grid](01_q_learning.ipynb), extra if the bandit is finished
 
 Run the commands on this page from `03-reinforcement-learning` (this folder). Tool pins live in the repo `mise.toml`. This folder has its own `pyproject.toml`. It uses the same package versions as Day 2 and adds none. Do not edit Day 1.
 
@@ -14,6 +15,8 @@ Run the commands on this page from `03-reinforcement-learning` (this folder). To
 4. Run the next cell and check that the same seed repeats the choices.
 5. If you have time, try epsilon 0 and epsilon 0.3 with the same seed. Twenty pulls is a small sample.
 
+The 15:10–16:00 block is the bandit. The grid notebook is extra after that. Do not start it until the bandit cell has run. It does not change the 20 pulls.
+
 ## On paper
 
 The Bandit Casino uses 4 machines, odds hidden by the instructor, and 20 pulls per team. This repo does not include a physical kit. The notebook is that game in NumPy. The odds live in `lib/bandit.py`. Leave them unread until you have run the cell.
@@ -21,6 +24,8 @@ The Bandit Casino uses 4 machines, odds hidden by the instructor, and 20 pulls p
 ## Expected output
 
 Twenty choices, twenty rewards of 0 or 1, and one mean reward. Running the same epsilon, the same pull count, and seed 42 again prints the same choices.
+
+If you reach the grid: an arrow in each open cell, the mean reward of the last episodes higher than the first, and a short note on gamma 0 versus gamma 0.9. Gamma 0.9 should reach the goal and stay off the pit. Gamma 0 does not plan that far.
 
 ## Create the environment
 
