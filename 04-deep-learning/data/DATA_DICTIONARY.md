@@ -4,7 +4,7 @@ Fresh and Good is the fictional Bangkok online grocery from Day 1. Both tables o
 
 ## Customers
 
-The churn models read `01-supervised-learning/data/fresh_and_good_customers.csv`. This folder does not copy that file and does not change it. The columns are in the [Day 1 data dictionary](../../01-supervised-learning/data/DATA_DICTIONARY.md).
+The churn models read `01-supervised-learning/data/fresh_and_good_customers.csv`. This folder does not copy or change that file. The columns are in the [Day 1 data dictionary](../../01-supervised-learning/data/DATA_DICTIONARY.md).
 
 `churned` is the label. The other July column, `next_month_spend_thb`, stays out of the features. The split is the Day 1 split: seed 42, 20 percent test, then 25 percent of the rest as validation (1440 train, 480 validation, 480 test). Score models on the validation rows. Leave the test rows unused.
 

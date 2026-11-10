@@ -42,7 +42,7 @@ By the end of this workshop, you can:
 
 ## In the room
 
-These three games have no kit in this repo. Say them out loud. They are the picture for the notebooks, not a handout.
+These three games have no kit in this repo. They are the picture for the notebooks, not a handout.
 
 Humans as a neural net. Three people stand in a line. The first hears a number of orders. Each person passes 1 if the number they received is 3 or more, and 0 otherwise. The last person says churn or stay. Then change the middle person's rule and send the same number through again.
 
@@ -99,7 +99,7 @@ Network Tuning Cup, 40 iterations, validation accuracy. A majority guess on four
 | `(32, 16)` | 0.001 | 0.700 |
 | `(32,)` | 0.01 | 0.758 |
 
-The winner is `(32,)` at learning rate 0.01. On the latest Linux check of these notebooks the forest took 0.13 seconds and the MLP took 0.33 seconds. The four ticket fits took 0.033, 0.037, 0.038, and 0.031 seconds, in the order of the table. Your laptop will differ. The score is the number to match.
+The winner is `(32,)` at learning rate 0.01. On the latest Linux check of these notebooks the forest took 0.12 seconds and the MLP took 0.28 seconds. The four ticket fits took 0.030, 0.033, 0.034, and 0.030 seconds, in the order of the table. Your laptop will differ. The score is the number to match.
 
 The stretch cell writes this confusion matrix for that winning run. Rows are the true category. Columns are the prediction. Each category has 30 validation rows.
 
@@ -163,7 +163,7 @@ MLFLOW_ALLOW_FILE_STORE=true uv run python -m mlflow ui --backend-store-uri "fil
 
 Open `http://127.0.0.1:5000`. The experiment is `network-tuning-cup`. The registered model is `fresh-and-good-churn`. This is a local UI on the same files. It is not a shared server.
 
-The file store is in maintenance in MLflow 3.18. The project sets `MLFLOW_ALLOW_FILE_STORE` because this class keeps a folder of files and does not run a database. See the [backend store](https://mlflow.org/docs/latest/self-hosting/architecture/backend-store/) page. The APIs used here were checked on MLflow 3.18.0: `mlflow.set_tracking_uri`, `mlflow.sklearn.log_model(..., name="model", registered_model_name=..., serialization_format="pickle")`, `mlflow.log_metric`, `mlflow.log_artifact`, and `mlflow.search_runs`. The default format in this release is skops, which refuses the Adam optimizer object inside `MLPClassifier` unless that private type is listed. The notebook logs the pipeline with pickle instead.
+The file store is in maintenance in MLflow 3.18. The project sets `MLFLOW_ALLOW_FILE_STORE` because this class keeps a folder of files and does not run a database. See the [backend store](https://mlflow.org/docs/latest/self-hosting/architecture/backend-store/) page. This day uses these MLflow 3.18.0 APIs: `mlflow.set_tracking_uri`, `mlflow.sklearn.log_model(..., name="model", registered_model_name=..., serialization_format="pickle")`, `mlflow.log_metric`, `mlflow.log_artifact`, and `mlflow.search_runs`. The default format in this release is skops, which refuses the Adam optimizer object inside `MLPClassifier` unless that private type is listed. The notebook logs the pipeline with pickle instead.
 
 ## Open the form
 
