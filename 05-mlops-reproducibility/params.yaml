@@ -1,0 +1,9 @@
+prepare:
+  snapshot_date: "2026-06-30"
+train:
+  test_size: 0.2
+  random_state: 42
+  C: 1.0
+registry:
+  model_name: fresh-and-good-churn
+  alias: champion

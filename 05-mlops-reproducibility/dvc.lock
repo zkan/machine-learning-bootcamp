@@ -1,0 +1,87 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: env PYTHONPATH=lib uv run --no-sync python -m prepare
+    deps:
+    - path: ../01-supervised-learning/data/fresh_and_good_customers.csv
+      hash: md5
+      md5: 9006b2d2f99a817340462a3e28210fb7
+      size: 177601
+    - path: lib/files.py
+      hash: md5
+      md5: d6f3bfb891407550488ca124a00ffd15
+      size: 535
+    - path: lib/prepare.py
+      hash: md5
+      md5: 6f3548e12cf70115c08d9c33a9c89d43
+      size: 1896
+    - path: lib/schema.py
+      hash: md5
+      md5: fe0b11b44a99e6a2e6cceb2e2f368d7c
+      size: 2008
+    outs:
+    - path: data/customers.parquet
+      hash: md5
+      md5: feef64e57de0d920f095fae78eb1bad5
+      size: 102873
+  features:
+    cmd: env PYTHONPATH=lib uv run --no-sync python -m features
+    deps:
+    - path: data/customers.parquet
+      hash: md5
+      md5: feef64e57de0d920f095fae78eb1bad5
+      size: 102873
+    - path: lib/features.py
+      hash: md5
+      md5: 6ebf98fa4aa558b97fded0bae4f0f771
+      size: 2816
+    - path: lib/files.py
+      hash: md5
+      md5: d6f3bfb891407550488ca124a00ffd15
+      size: 535
+    - path: lib/schema.py
+      hash: md5
+      md5: fe0b11b44a99e6a2e6cceb2e2f368d7c
+      size: 2008
+    outs:
+    - path: data/train_features.parquet
+      hash: md5
+      md5: 6593f6ed3a0476a3c9cba4b4e207226b
+      size: 101900
+    - path: feature_repo/data/customer_features.parquet
+      hash: md5
+      md5: 57941aa34e32395d80fa3bf1e15fe0b8
+      size: 89799
+  train:
+    cmd: env PYTHONPATH=lib uv run --no-sync python -m train
+    deps:
+    - path: data/train_features.parquet
+      hash: md5
+      md5: 6593f6ed3a0476a3c9cba4b4e207226b
+      size: 101900
+    - path: lib/registry.py
+      hash: md5
+      md5: 34d0b4ebe77978e4a8e8e5836de22019
+      size: 1802
+    - path: lib/schema.py
+      hash: md5
+      md5: fe0b11b44a99e6a2e6cceb2e2f368d7c
+      size: 2008
+    - path: lib/train.py
+      hash: md5
+      md5: 30038f07d9d4c0cbede711b479985901
+      size: 2503
+    - path: params.yaml
+      hash: md5
+      md5: 5188f663f594db55b882b00e31640b9b
+      size: 154
+    params:
+      params.yaml:
+        train.C: 1.0
+        train.random_state: 42
+        train.test_size: 0.2
+    outs:
+    - path: data/metrics.json
+      hash: md5
+      md5: fc781b3b062c4b30dcce47ea651d7042
+      size: 143
