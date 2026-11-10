@@ -70,7 +70,7 @@ Starter `hidden = (32,)` in `00_mlp_churn.ipynb`, validation ROC-AUC:
 | Random forest | 0.959 | 0.776 | 80 trees, `min_samples_leaf` 5, seed 42 |
 | MLP `(32,)` | 0.849 | 0.782 | Adam, 200 iterations, the loss has not settled |
 
-The MLP is ahead on the validation rows by a little. The forest fits the train rows harder. On the latest Linux check the forest took 0.12 seconds and the MLP took 0.28 seconds.
+The MLP is ahead on the validation rows by a little. The forest fits the train rows harder. On the latest Linux check the forest took 0.14 seconds and the MLP took 0.35 seconds.
 
 `01_training.ipynb`, validation ROC-AUC unless noted:
 
@@ -97,7 +97,7 @@ Learning curve, train rows only, 3-fold ROC-AUC:
 
 `02_opencv.ipynb` draws a green square. The edge sum is 15300. The resized image has 256 bright pixels. If the webcam cell prints `No camera`, leave it.
 
-`03_cnn.ipynb`, learning rate 0.001, 2 epochs. With Fashion-MNIST files present, the fit uses 2,000 train rows and 400 validation rows. On the Linux check that validation accuracy was 0.698, the train accuracy was 0.706, the held-out accuracy was 0.677, and the fit took 0.18 seconds. Without those files, digits validation accuracy is 0.406 and the held-out accuracy is 0.347. Your laptop will differ. The score is the number to match for the data you actually loaded. The notebook prints `source`.
+`03_cnn.ipynb`, learning rate 0.001. With Fashion-MNIST files present, the fit uses the full seeded split: 42,000 train rows, 14,000 validation rows, and 14,000 held-out rows, for 12 epochs. On the Linux check that validation accuracy was 0.890, the train accuracy was 0.907, the held-out accuracy was 0.887, and the fit took 19.79 seconds. The notebook prints the validation accuracy as 0.89. A second fit in `04_mlflow.ipynb` took 21.04 seconds, so the time moves a little. Without the Fashion-MNIST files, digits use every row for 40 epochs. On the Linux check that validation accuracy was 0.953, the train accuracy was 0.976, the held-out accuracy was 0.942, and the fit took 0.75 seconds. Your laptop will differ. The score is the number to match for the data you actually loaded. The notebook prints `source`.
 
 ## Before class
 

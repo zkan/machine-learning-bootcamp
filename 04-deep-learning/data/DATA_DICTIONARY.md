@@ -21,10 +21,10 @@ The files are not in git. `python -m images --download` fetches four gzip IDX fi
 
 The class names, in label order, are T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot. They are clothing photos used here as a stand-in for a product photo. They are not grocery items.
 
-The notebook joins train and test, then splits again with seed 42: 60 percent train, 20 percent validation, 20 percent held out. The fit uses the first 2,000 train rows, 400 validation rows, and 400 held-out rows of that split.
+The notebook joins train and test, then splits again with seed 42: 60 percent train, 20 percent validation, 20 percent held out. That is 42,000 train rows, 14,000 validation rows, and 14,000 held-out rows. The fit uses every row for 12 epochs.
 
 ## Digits fallback
 
-If `data/fashion/` is missing, `load_dataset("auto")` uses `sklearn.datasets.load_digits`. That is 1,797 images, 8 by 8, labels 0 through 9. No download. The same 60/20/20 split is used, and the fit uses every row of each part. Ink values are scaled from 0–16 to 0–255 so they match the Fashion-MNIST range.
+If `data/fashion/` is missing, `load_dataset("auto")` uses `sklearn.datasets.load_digits`. That is 1,797 images, 8 by 8, labels 0 through 9. No download. The same 60/20/20 split is used, and the fit uses every row of each part for 40 epochs. Ink values are scaled from 0–16 to 0–255 so they match the Fashion-MNIST range.
 
 The held-out labels are not written into this repo. `instructor_labels` in `lib/cup.py` rebuilds them for the teaching team.

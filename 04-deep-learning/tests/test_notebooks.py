@@ -37,7 +37,7 @@ def test_notebooks_keep_the_exercises():
     assert "learning_rate = 0.001" in _plain("03_cnn.ipynb")
     memo = (ROOT / "why_this_model.md").read_text()
     assert "we ship this model because" in memo
-    assert "0.698" not in memo
+    assert "0.890" not in memo
     assert "0.782" not in memo
 
 

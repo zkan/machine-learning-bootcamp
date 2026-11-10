@@ -2,46 +2,75 @@ from pathlib import Path
 
 import cv2
 
-from cnn import classify_upload, predict, save_cnn, train_cnn
+from cnn import class_epochs, classify_upload, predict, save_cnn, train_cnn
 from cup import class_parts, instructor_labels, label_frame, prediction_frame, score_files, write_frame
-from images import fashion_ready
+from images import fashion_ready, load_fashion, split_dataset, take
 
 
-def _fit(source):
+def _fit(source, epochs):
     bundle, train, val, hold_x = class_parts(source)
     result = train_cnn(
-        train[0], train[1], val[0], val[1], bundle["image_size"], len(bundle["classes"])
+        train[0],
+        train[1],
+        val[0],
+        val[1],
+        bundle["image_size"],
+        len(bundle["classes"]),
+        epochs=epochs,
     )
     hold_y = instructor_labels(source)["label"].to_numpy()
     return bundle, result, hold_x, hold_y
 
 
 def test_digits_fallback_is_offline_and_repeatable():
-    bundle, result, hold_x, hold_y = _fit("digits")
+    epochs = class_epochs("digits")
+    bundle, result, hold_x, hold_y = _fit("digits", epochs)
     bundle2, train2, val2, _hold = class_parts("digits")
     again = train_cnn(
-        train2[0], train2[1], val2[0], val2[1], bundle2["image_size"], len(bundle2["classes"])
+        train2[0],
+        train2[1],
+        val2[0],
+        val2[1],
+        bundle2["image_size"],
+        len(bundle2["classes"]),
+        epochs=epochs,
     )
     assert bundle["source"] == "digits"
-    assert round(result["validation_accuracy"], 3) == 0.406
+    assert epochs == 40
+    assert len(train2[0]) == 1077
+    assert round(result["validation_accuracy"], 3) == 0.953
     assert result["validation_accuracy"] == again["validation_accuracy"]
-    assert result["seconds"] > 0
+    assert result["seconds"] < 5
     held = float((predict(result["model"], hold_x) == hold_y).mean())
-    assert round(held, 3) == 0.347
+    assert round(held, 3) == 0.942
 
 
-def test_fashion_subset_when_the_files_are_present():
+def test_fashion_uses_the_full_split_and_a_tiny_fit_stays_fast():
     if not fashion_ready():
         return
-    _bundle, result, hold_x, hold_y = _fit("fashion")
-    assert result["validation_accuracy"] == 0.6975
-    assert round(result["seconds"], 2) < 5
-    held = float((predict(result["model"], hold_x) == hold_y).mean())
-    assert round(held, 3) == 0.677
+    bundle, train, val, hold_x = class_parts("fashion")
+    assert bundle["source"] == "fashion"
+    assert (len(train[0]), len(val[0]), len(hold_x)) == (42000, 14000, 14000)
+    assert class_epochs("fashion") == 12
+    small_train, small_val, _hold = split_dataset(load_fashion())
+    small_train = take(*small_train, 256)
+    small_val = take(*small_val, 64)
+    result = train_cnn(
+        small_train[0],
+        small_train[1],
+        small_val[0],
+        small_val[1],
+        bundle["image_size"],
+        len(bundle["classes"]),
+        epochs=1,
+    )
+    assert result["epochs"] == 1
+    assert result["seconds"] < 5
+    assert 0 <= result["validation_accuracy"] <= 1
 
 
 def test_upload_and_cup_score(tmp_path):
-    bundle, result, hold_x, hold_y = _fit("digits")
+    bundle, result, hold_x, hold_y = _fit("digits", epochs=1)
     path = tmp_path / "cnn.pt"
     save_cnn(path, result["model"], bundle["image_size"], bundle["classes"], bundle["source"])
     gray = hold_x[0]

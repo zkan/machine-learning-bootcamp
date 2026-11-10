@@ -4,27 +4,20 @@ from pathlib import Path
 
 import pandas as pd
 
-from cnn import FASHION_HOLD_LIMIT, FASHION_TRAIN_LIMIT, FASHION_VAL_LIMIT
-from images import load_dataset, split_dataset, take
+from images import load_dataset, split_dataset
 
 
 def class_parts(source: str = "auto"):
     """Train and validation keep their labels. The held-out return value is images only."""
     bundle = load_dataset(source)
     train, val, hold = split_dataset(bundle)
-    if bundle["source"] == "fashion":
-        train = take(*train, FASHION_TRAIN_LIMIT)
-        val = take(*val, FASHION_VAL_LIMIT)
-        hold = take(*hold, FASHION_HOLD_LIMIT)
     return bundle, train, val, hold[0]
 
 
 def instructor_labels(source: str = "auto") -> pd.DataFrame:
     """Same held-out rows as class_parts. For the teaching team, not the notebook."""
-    bundle = load_dataset(source)
-    _train, _val, hold = split_dataset(bundle)
-    if bundle["source"] == "fashion":
-        hold = take(*hold, FASHION_HOLD_LIMIT)
+    _bundle = load_dataset(source)
+    _train, _val, hold = split_dataset(_bundle)
     return label_frame(hold[1])
 
 
